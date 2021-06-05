@@ -2,6 +2,9 @@
 // ini_set('error_reporting', E_ALL^E_NOTICE);
 // ini_set('display_errors', 'on');
 header("Content-Type: text/html; charset=ISO-8859-1");
+use Mpdf\Mpdf;
+use Mpdf\MpdfException;
+use Mpdf\Output\Destination;
 
 function render_tabla_i18 () {
 
@@ -367,15 +370,23 @@ function render_tabla_i18 () {
 
 		$html .= '</table>';
 
-		require_once(ABSPATH.'/inc/html2pdf/html2pdf.class.php');
-		$html2pdf = new HTML2PDF($orientacion, $tamFolio, 'es', true, 'UTF-8');
-	    $html2pdf->pdf->SetDisplayMode('fullpage');
-	    $html2pdf->pdf->SetTitle($titulo);
-	    $html2pdf->WriteHTML($html);
-	    ob_end_clean(); //Sin esto no genera correctamente el PDF
-	    $html2pdf->Output($nombrePDF . '.pdf', $modo);
+        $html2pdf = new Mpdf([
+            "orientation" =>$orientacion,
+            "tempDir" => "C:/tmp",
+        ]);
+        try {
+            $html2pdf->SetDisplayMode('fullpage');
+            $html2pdf->setMBencoding('UTF-8');
+            $html2pdf->SetTitle($titulo);
+            $html2pdf->WriteHTML($html);
+            ob_end_clean(); //Sin esto no genera correctamente el PDF
+            $html2pdf->Output($nombrePDF . '.pdf', $modo);
+        } catch (MpdfException $e) {
+            echo "Error generando PDF";
+            die;
+        }
 
-	} else {
+    } else {
 		$tbody = '';
 		$tfoot = '';
 		$n = 1;
