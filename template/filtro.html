@@ -1,0 +1,60 @@
+﻿<form action="informe-1.php" method="get">
+    <table style="width: 100%;">
+        <tr>
+            <td colspan="3" style="padding: 5px;">
+                <select class="form-control selectpicker" data-live-search="true" id="pr" name="pr" style="width: 100%">
+                    <option value="">Todos los proveedores</option>
+                    {SUPPLIERS}
+                </select>
+            </td>
+            <td style="padding: 5px;">
+                <select class="form-control" id="giros" name="giros" style="width: 100%; min-width: 200px;">
+                    {GIROS}
+                </select>
+            </td>
+            <td style="padding: 5px;">
+                <select class="form-control" id="vinculados" name="vinculados" style="width: 100%; min-width: 200px;">
+                    {VINCULADOS}
+                </select>
+            </td>
+            <td rowspan="2" style="padding: 5px;">
+                {EXCEL_URL}{PRINT_URL}
+                <button id="btnFiltrar" style="margin-left: 20px;" type="submit" class="btn btn-primary btn-sm">Filtrar</button>
+                <a href="informe-1.php" style="margin-left: 20px; margin-top: 5px;" type="submit" class="btn btn-default btn-sm">Borrar</a>
+                <input type="button" style="margin-left: 20px; margin-top: 5px;" class="btn btn-danger btn-sm" onclick="btnActualizarInforme();" value="Actualizar informe" />
+                <div id="cargandoEjecucionProceso" style="padding:10px 0 10px 20px"></div>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 40%; padding: 5px;">
+                <div class="form-inline">
+                    <div class="input-group">
+                        <div class="input-group-addon">Desde</div>
+                        <input type="text" class="input-date form-control" id="start" name="start" value="{DF_START}" autocomplete="off"/>                        
+                        <div class="input-group-addon">Hasta</div>
+                        <input type="text" class="input-date form-control" id="end" name="end" value="{DF_END}" autocomplete="off"/>
+                    </div>
+                </div>
+            </td>
+            <td style="width: 10%; padding: 5px;">
+                <input type="text" class="form-control" id="sufac" name="sufac" placeholder="Su factura" value="{SUFAC}" />
+            </td>
+            <td style="width: 10%; padding: 5px;">
+                <input title="Decimales separados por coma o punto y SIN separador de miles" type="text" class="form-control" id="impf" name="impf" placeholder="Importe" value="{IMPF}" />
+            </td>
+            <td style="width: 20%; padding: 5px;">
+                <select class="form-control" id="status" name="status" style="width: 100%; min-width: 200px;">
+                    {STATES}
+                </select>
+            </td>
+            <td style="width: 20%; padding: 5px;">
+                <select class="form-control" id="deleted" name="deleted" style="width: 100%; min-width: 200px;">
+                    {IS_DELETED}
+                </select>
+            </td>
+
+        </tr>
+    </table>
+    <input type="hidden" name="submited" id="submited" value="true"/>
+</form>
+<!--<select class="form-control" id="y" name="y" style="width:100%">{YEARS}</select>-->

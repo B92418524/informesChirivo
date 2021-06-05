@@ -1,0 +1,33 @@
+body {
+    background-color: #eee;
+}
+
+#login_form {
+    background: rgba(255, 255, 255, 0.65);
+    border-radius: 10px;
+    margin: auto;
+    text-align: center;
+    font-size: 22px;
+    padding: 40px;
+    border: solid 1px #999;
+    width: 500px;
+}
+
+    #login_form #username, #login_form #password {
+        margin-bottom: 10px;
+    }
+
+
+    #login_form .sb {
+        margin-top: 40px;
+    }
+
+.logo {
+    text-align: center;
+    margin-top: 10%;
+    margin-bottom: 40px;
+}
+
+    .logo .logo-img {
+        width: 200px;
+    }

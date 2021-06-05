@@ -1,0 +1,15 @@
+﻿USE [ReportingChirivo]
+GO
+
+/****** Object:  View [dbo].[facturacion_mes]    Script Date: 01/14/2016 12:45:24 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+ALTER view [dbo].[facturacion_mes] as
+select codigoempresa, codigoproyecto, codigocliente, ejercicio, mes, SUM(importemes)  as importemes
+from facturacion_mes_X
+group by codigoempresa, codigoproyecto, codigocliente, ejercicio, mes
+GO

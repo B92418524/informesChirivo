@@ -1,0 +1,65 @@
+﻿<body role="document">
+    <div id="wrap">
+        <!-- Fixed navbar -->
+        {MAIN_MENU}
+        
+        <div class="row" style="margin: 50px 50px 10px 50px;">
+            <div class="col-md-12">
+                {FILTRO}
+            </div>
+        </div>
+
+        <script src="assets/jquery.min.js"></script>
+        <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+        <script src="assets/datepicker/js/bootstrap-datepicker.min.js"></script>
+        <script src="assets/datepicker/locales/bootstrap-datepicker.es.min.js"></script>
+        <script src="assets/chosen/chosen.jquery.min.js"></script>
+        <!--<script src="assets/search_select/js/bootstrap-select.min.js"></script>-->
+        <script src="assets/bootstrap/js/custom.js"></script>        
+        <script>
+            $('.input-date').datepicker({ clearBtn: true, language: "es", autoclose: true, todayHighlight: true });
+            $('.selectpicker').chosen({ search_contains: true });
+        </script>
+
+        <div class="row" style="margin: 10px 50px 10px 50px;">
+            <div class="col-md-12">                
+                <table class="table table-striped table-bordered sticky-header">
+                    <thead style="background-color:#fff;">
+                        <tr style="border:solid 1px silver;">
+                            <th>#</th>
+                            <th>C&oacute;digo Proveedor</th>
+                            <th>Raz&oacute;n social</th>
+                            <th>Su factura</th>
+                            <th>Fecha emisi&oacute;n</th>
+                            <th>Fecha vencimiento</th>
+                            <th>Tipo efecto</th>
+                            <th>Estado</th>
+                            <th>Base imponible</th>
+                            <th>Fecha emisi&oacute;n pago</th>
+                            <th>Contrapartida</th>
+                            <th>Cuenta</th>
+                            <th>C&oacute;digo Proyecto</th>
+                            <th>Proyecto</th>
+                            <th>C&oacute;digo Contrato</th>
+                            <th>Contrato</th>
+                            <th>C&oacute;digo Anexo</th>
+                            <th>Anexo</th>                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {MAIN_CONTENT}                    
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <button style="position: absolute; top: -30px; right: 50%; left: 50%;" onclick="noframeStyle();" type="button" class="btn btn-xs btn-danger">Cerrar</button>
+            <iframe id="d1" style="width: 100%; height: 290px; border: 0; margin: 0; padding: 0;" src="blank.html"></iframe>
+        </div>
+    </footer>
+<script src="assets/jquery.min.js"></script>
+<script src="assets/sticky-header.js"></script>
+</body>

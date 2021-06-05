@@ -1,0 +1,48 @@
+﻿<form action="informe-4.php" method="get">
+    <table style="width: 100%;">
+        <tr>
+
+            <td style="padding: 5px;">
+                <div class="form-inline">
+                    <div class="input-group">
+                        <div class="input-group-addon">Desde</div>
+                        <input type="text" class="input-date input-sm form-control" id="start" name="start" value="{DF_START}" autocomplete="off"/>
+                        <div class="input-group-addon">Hasta</div>
+                        <input type="text" class="input-date input-sm form-control" id="end" name="end" value="{DF_END}" autocomplete="off"/>
+                    </div>
+                </div>
+            </td>
+
+            <td colspan="2" style="padding: 5px;">
+                <select class="form-control selectpicker" data-live-search="true" id="wk" name="wk" style="width: 100%">                                     
+                    {WK}
+                </select>
+            </td>
+
+            <td rowspan="2" style="padding: 5px;">{EXCEL_URL}
+                <button style="margin-left: 20px;" type="submit" class="btn btn-primary btn-sm">Filtrar</button>
+            </td>
+        </tr>
+        <tr>
+            <td style="padding:5px;">
+                <select class="form-control selectpicker" data-live-search="true" id="cl" name="cl" style="width: 100%">
+                    <option value="">Todos los clientes</option>
+                    {CL}
+                </select>
+            </td>
+            <td style="padding:5px;">
+                <select class="form-control selectpicker" data-live-search="true" id="jo" name="jo" style="width: 100%">
+                    <option value="">Todos los jefes de obra</option>
+                    {JO}
+                </select>
+            </td>
+            <td>
+                <select class="form-control selectpicker" data-live-search="true" id="en" name="en" style="width: 100%">
+                    <option value="">Todos los encargados</option>
+                    {EN}
+                </select>
+            </td>
+        </tr>
+    </table>
+</form>
+<!--<select class="form-control" id="y" name="y" style="width:100%">{YEARS}</select>-->

@@ -1,0 +1,76 @@
+﻿<!-- DOC: Apply "page-sidebar-menu-light" class right after "page-sidebar-menu" to enable light sidebar menu style(without borders) -->
+<!-- DOC: Apply "page-sidebar-menu-hover-submenu" class right after "page-sidebar-menu" to enable hoverable(hover vs accordion) sub menu mode -->
+<!-- DOC: Apply "page-sidebar-menu-closed" class right after "page-sidebar-menu" to collapse("page-sidebar-closed" class must be applied to the body element) the sidebar sub menu mode -->
+<!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
+<!-- DOC: Set data-keep-expand="true" to keep the submenues expanded -->
+<!-- DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed -->
+<ul class="page-sidebar-menu" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
+    <li class="start active ">
+        <a href="index.php">
+            <i class="icon-home"></i>
+            <span class="title">Escritorio</span>
+            <span class="selected"></span>
+        </a>
+    </li>
+    <li>
+        <a href="notificaciones.php">
+            <i class="icon-envelope-open"></i>
+            <span class="title">Notificaciones</span>            
+        </a>        
+    </li>
+    <li>
+        <a href="javascript:;">
+            <i class="icon-folder"></i>
+            <span class="title">Catálogo</span>
+            <span class="arrow "></span>
+        </a>
+        <ul class="sub-menu">
+            {MENU_FAMILIAS}                        
+        </ul>
+    </li>    
+    <li>
+        <a href="javascript:;">
+            <i class="fa fa-calendar"></i>
+            <span class="title">Pedidos</span>
+            <span class="arrow "></span>
+        </a>
+        <ul class="sub-menu">
+            <li>
+                <a href="pedidos-pendientes.php">Pedidos pendientes</a>
+            </li>
+            <li>
+                <a href="pedidos-recibidos.php">Pedidos recibidos</a>
+            </li>                       
+        </ul>
+    </li>    
+    <li>
+        <a href="ventas.php">
+            <i class="fa fa-cart-plus"></i>
+            <span class="title">Ventas</span>
+            <span class="arrow "></span>            
+        </a>
+        <ul class="sub-menu">
+            <li>
+                <a href="nueva-venta.php">Ejecutar venta</a>
+            </li>
+            <li>
+                <a href="ultimas-ventas.php">Ultimas ventas</a>
+            </li>                                    
+        </ul>   
+    </li>
+    <li>
+        <a href="javascript:;">
+            <i class="fa fa-recycle"></i>
+            <span class="title">RMA</span>
+            <span class="arrow "></span>           
+        </a>
+        <ul class="sub-menu">
+            <li>
+                <a href="solicitud-rma.php">Solicitud RMA</a>
+            </li>
+            <li>
+                <a href="seguimiento-rma.php">Seguimiento RMA</a>
+            </li>                        
+        </ul>      
+    </li>     
+</ul>

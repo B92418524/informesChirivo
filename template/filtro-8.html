@@ -1,0 +1,77 @@
+﻿<form action="informe-8.php" method="get">
+    <table style="width: 100%;">
+        <tr>
+            <td colspan="2" style="padding: 5px;">
+                <select class="form-control selectpicker" data-live-search="true" id="cl" name="cl" style="width: 100%">
+                    <option value="">Todos los clientes</option>
+                    {CL}
+                </select>
+            </td>
+            <td style="width: 20%; padding: 5px;">
+                <select class="form-control" id="estado_efecto" name="estado_efecto" style="width: 100%; min-width: 200px;">  
+                    {ESTADOS_EFECTO}
+                </select>
+            </td>
+            <td style="width: 20%; padding: 5px;">
+                <select class="form-control" id="deleted" name="deleted" style="width: 100%">
+                    {IS_DELETED}
+                </select>
+            </td>
+            <td rowspan="3" style="padding: 5px;">
+                {EXCEL_URL}{PRINT_URL}
+                <button style="margin-left: 20px;" type="submit" class="btn btn-primary btn-sm">Filtrar</button>
+                <a href="informe-8.php" style="margin-left: 20px; margin-top: 5px;" type="submit" class="btn btn-default btn-sm">Borrar</a>
+            </td>
+        </tr>
+        <tr>
+            <td style="padding: 5px;">
+                <div class="form-inline">
+                    <div class="input-group">
+                        <div class="input-group-addon">E. Desde</div>
+                        <input type="text" class="input-date input-sm form-control" id="start" name="start" value="{DF_START}" autocomplete="off"/>                        
+                        <div class="input-group-addon">E. Hasta</div>
+                        <input  type="text" class="input-date input-sm form-control" id="end" name="end" value="{DF_END}" autocomplete="off"/>
+                    </div>
+                </div>
+            </td>
+            <td style="padding: 5px;">
+                <div class="form-inline">
+                    <div class="input-group">
+                        <div class="input-group-addon">V. Desde</div>
+                        <input type="text" class="input-date input-sm form-control" id="vstart" name="vstart" value="{DF_VSTART}" autocomplete="off"/>
+                        <div class="input-group-addon">V. Hasta</div>
+                        <input type="text" class="input-date input-sm form-control" id="vend" name="vend" value="{DF_VEND}" autocomplete="off"/>
+                    </div>
+                </div>
+            </td>
+            <td style="width: 20%; padding: 5px;">
+                <input type="text" class="col-md-6 form-control" id="sufac" name="sufac" placeholder="Factura" value="{SUFAC}"/>
+            </td>
+            <td style="width: 20%; padding: 5px;">
+                <input title="Decimales separados por coma o punto y SIN separador de miles" type="text" class="form-control" id="impf" name="impf" placeholder="Base Imponible" value="{IMPF}" />
+            </td>
+
+            
+
+        </tr>
+        <tr>
+            <td style="width: 33%; padding: 5px;">
+                <select onchange="contratos_por_proyecto();" class="form-control selectpicker" id="project" name="project" style="width: 100%">
+                    <option value="">Todos los proyectos</option>
+                    {PROJECTS}
+                </select>
+            </td>
+            <td style="width: 33%; padding: 5px;">
+                <select onchange="anexos_por_contrato();" class="form-control" id="contract" name="contract" style="width: 100%">
+                    <option value="">Todos los contratos</option>
+                </select>
+            </td>
+            <td style="width: 33%; padding: 5px;" colspan="2">
+                <select class="form-control" id="annex" name="annex" style="width: 100%">
+                    <option value="">Todos los anexos</option>
+                </select>
+            </td>            
+        </tr>
+    </table>
+</form>
+<!--<select class="form-control" id="y" name="y" style="width:100%">{YEARS}</select>-->

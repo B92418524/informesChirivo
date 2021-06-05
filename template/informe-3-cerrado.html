@@ -1,0 +1,196 @@
+﻿<body role="document">
+    <div class="container">
+        <div style="text-align: center; margin-bottom: 40px;">
+            <h2>Informe mensual cuadre cuentas obras</h2>
+            <h4 style="color:red;">Informe cerrado no editable</h4>
+        </div>
+        <form method="post">
+            <div class="row" style="margin: 10px 50px 10px 50px;">
+                <div class="col-md-12">
+                    <table class="table table-striped table-bordered">
+                        <tr>
+                            <td>OBRA: </td>
+                            <td>
+                                {OBRA}
+                        </tr>
+                        <tr>
+                            <td>JEFE DE OBRA: </td>
+                            <td>
+                                {JEFE_DE_OBRA}
+                        </tr>
+                        <tr>
+                            <td>FECHA: </td>
+                            <td>
+                                {MES}
+                        </tr>
+                        <tr>
+                            <td>DIA DE CIERRE (dd/mm/yyyy):</td>
+                            <td>
+                                <input id="DIA_DE_CIERRE" name="DIA_DE_CIERRE" class="input-date form-control" readonly value="{DIA_DE_CIERRE_V}" />
+                        </tr>
+                    </table>
+
+
+                    <script src="assets/jquery.min.js"></script>
+                    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+                    <script src="assets/datepicker/js/bootstrap-datepicker.min.js"></script>
+                    <script src="assets/datepicker/locales/bootstrap-datepicker.es.min.js"></script>
+                    <script>$('.input-date').datepicker({ clearBtn: true, language: "es", autoclose: true, todayHighlight: true });</script>
+
+                    <table class="table table-striped table-bordered">
+                        <tr>
+                            <td style="color:red;">
+                                IMPORTANTE:
+                                <ul>
+                                    <li>
+                                        Todos los importes ser&aacute;n base imponible, antes de IVA
+                                    </li>
+                                    <li>
+                                        No usar separadores de miles al indicar las cantidades
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <div style="margin-top: 50px;">
+                        <h4>COBROS</h4>
+                    </div>
+                    <table class="table table-striped table-bordered">
+                        <tr>
+                            <td>PENDIENTE DE FACTURACI&Oacute;N DESDE D&Iacute;A DE CIERRE HASTA FIN DE MES: </td>
+                            <td>
+                                <input onchange="sum0();" id="PF_CIERRE" name="PF_CIERRE" class="form-control" readonly value="{PF_CIERRE_V}" />
+                        </tr>
+                        <tr>
+                            <td>PENDIENTE DE FACTURACI&Oacute;N POR FALTA DE CONTRATO: </td>
+                            <td>
+                                <input onchange="sum0();" id="PF_FALTA_CONTRATO" name="PF_FALTA_CONTRATO" class="form-control" readonly value="{PF_FALTA_CONTRATO_V}" />
+                        </tr>
+                        <tr>
+                            <td>PENDIENTE DE FACTURACI&Oacute;N POR FALTA DE APROBACI&Oacute;N DE PARTIDAS: </td>
+                            <td>
+                                <input onchange="sum0();" id="PF_APROBACION" name="PF_APROBACION" class="form-control" readonly value="{PF_APROBACION_V}" />
+                        </tr>
+                        <tr>
+                            <td>PENDIENTE DE FACTURACI&Oacute;N POR OTROS MOTIVOS: </td>
+                            <td>
+                                <input onchange="sum0();" id="PF_OTROS" name="PF_OTROS" class="form-control" readonly value="{PF_OTROS_V}" />
+                        </tr>
+                        <tr>
+                            <td>TOTAL PENDIENTE DE COBRO: </td>
+                            <td>
+                                <input id="TOTAL_PENDIENTE_COBRO" name="TOTAL_PENDIENTE_COBRO" class="form-control" readonly value="{TOTAL_PENDIENTE_COBRO_V}" />
+                        </tr>
+                        <tr>
+
+                            <td colspan="2">
+                                MOTIVOS:
+                                <textarea id="MOTIVOS" name="MOTIVOS" style="width: 100%; margin-top: 10px;" class="form-control" readonly>{MOTIVOS_V}</textarea>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <div style="margin-top: 50px;">
+                        <h4>PAGOS</h4>
+                    </div>
+                    <table class="table table-striped table-bordered">
+                        <tr>
+                            <td>
+                                PENDIENTE DE CERTIFICACI&Oacute;N A SUBCONTRATAS O PROVEEDORES (DESGLOSAR)
+                            </td>
+                            <td>
+                                IMPORTE
+                            </td>
+                            <td>
+                                INDICAR MOTIVOS, SI PROCEDE
+                            </td>
+                            <td></td>
+                        </tr>
+                        {TRA}
+                        <tr>
+                            <td>
+                                TOTAL PENDIENTE DE PAGO
+                            </td>
+                            <td>
+                                <input id="TOTAL_PENDIENTE_DE_PAGO" name="TOTAL_PENDIENTE_DE_PAGO" class="form-control" readonly value="{TOTAL_PENDIENTE_DE_PAGO_V}" />
+                            </td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </table>
+
+
+                    <div style="margin-top: 50px;">
+                        <h4>ACOPIOS O ENTREGAS A CUENTA</h4>
+                    </div>
+                    <table class="table table-striped table-bordered">
+                        <tr>
+                            <td>
+                                ACOPIO EN OBRA O ENTREGA A CUENTA (DESGLOSAR)
+                            </td>
+                            <td>
+                                IMPORTE
+                            </td>
+                            <td>
+                                INDICAR MOTIVOS, SI PROCEDE
+                            </td>
+                            <td></td>
+                        </tr>
+                        {TRB}
+                        <tr>
+                            <td>
+                                PAGO ANTICIPADO REALIZADO
+                            </td>
+                            <td>
+                                <input id="PAGO_ANTICIPADO_REALIZADO" name="PAGO_ANTICIPADO_REALIZADO" class="form-control" readonly value="{PAGO_ANTICIPADO_REALIZADO_V}" />
+                            </td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </table>
+
+
+                    <div style="margin-top: 50px;">
+                        <h4>OBSERVACIONES GENERALES</h4>
+                    </div>
+                    <table class="table table-striped table-bordered">
+                        <tr>
+                            <td colspan="2">
+                                <textarea id="OBSERVACIONES_GENERALES" name="OBSERVACIONES_GENERALES" style="width: 100%; min-height: 100px; margin-top: 10px;" class="form-control" readonly>{OBSERVACIONES_GENERALES_V}</textarea>
+                            </td>
+                        </tr>
+                    </table>
+
+
+                </div>
+            </div>
+            <input id="grabar" name="process" type="hidden" value="true" />
+
+        </form>
+    </div>
+</body>
+<script>
+    $(document).ready(function () {
+        // solo permitir numeros
+       /* $("body").on("keydown", ".numero", function(e){-1!==$.inArray(e.keyCode,[46,8,9,27,13,188])||/65|67|86|88/.test(e.keyCode)&&(!0===e.ctrlKey||!0===e.metaKey)||35<=e.keyCode&&40>=e.keyCode||( e.shiftKey||48>e.keyCode||57<e.keyCode)&&(96>e.keyCode||105<e.keyCode)&&e.preventDefault()});
+        */
+        $("body").on("keypress", ".numero", function(e) {
+            var textoAnterior = $(this).val();
+            var caracter = String.fromCharCode(e.which);
+            var posicion = this.selectionStart;
+            var texto = [textoAnterior.slice(0, posicion), caracter, textoAnterior.slice(posicion)].join('');
+
+            if(e.which !== 8 && e.which !== 0){ // firefox 8 -> tecla retroceso, 0 -> tecla para desplazarse a los lados
+                //Deja introducir números negativos y positivos con dos decimales
+                if(texto.match(/^(\-?\d+\,?\d{0,2}$)|^\-{1}$/g) 
+                    || (caracter.match(/^(-?|[0-9]){1,18}$/g) && texto.match(/^(\-?\d+\,?\d{0,2}$)|^\-{1}$/g)) ){
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        });
+</script>
+
+

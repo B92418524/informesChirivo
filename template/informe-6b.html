@@ -1,0 +1,59 @@
+﻿<body role="document">
+    <div id="wrap">
+        <!-- Fixed navbar -->
+        {MAIN_MENU}
+
+        <div class="row">
+
+            <div class="col-md-12">
+
+                <div class="registro_factura">
+                    {RESULT}
+
+                    <div style="clear:both;"></div>
+                    <table style="margin-top:60px; width:100%; background-color:#fff; padding:5px;" class="table">
+                        <tr>
+                            <td colspan="2" style="text-align:center; font-weight:bold;">
+                                {CIF} - {ID_PROVEEDOR} - {NOMBRE_PROVEEDOR}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                FECHA: <span style="font-weight:bold;">{DATE}</span>
+                            </td>
+                            <td>
+                                N FACTURA: <span style="font-weight:bold;">{NFAC}</span>
+                            </td>
+                        </tr>
+                        <tr style="padding-top:10px;">
+                            <td>
+                                BASE IMPONIBLE: <span style="font-weight:bold;">{BIMP}</span>
+                            </td>
+                            <td>
+                                IMPORTE: <span style="font-weight:bold;">{IMP}</span>
+                            </td>
+                        </tr>
+                        <tr style="padding-top:10px;">
+                            <td colspan="2" style="text-align:center; padding-top:20px;">
+                                FICHERO: <span style="font-weight:bold;">{ID_FICHERO}</span>
+                            </td>
+                        </tr>
+                    </table>
+                    <div style="padding-top:50px; text-align:center;">
+                        <a href="informe-6.php" class="btn btn-primary">REGISTRAR OTRA FACTURA</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+        </div>
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+

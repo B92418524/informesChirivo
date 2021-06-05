@@ -1,0 +1,11 @@
+.registro_factura
+{
+    margin-top:50px;
+    margin-left:auto;
+    margin-right:auto;
+    padding: 20px 60px 60px 60px;
+    border-radius: 6px;
+    background-color:#eee;
+    max-width:800px;
+
+}

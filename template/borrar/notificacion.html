@@ -1,0 +1,37 @@
+﻿<div class="portlet light">
+    <div class="portlet-body">
+        <div class="row inbox">
+            <div class="col-md-12">
+                {NOTIFICATION}
+                <div class="inbox-header">
+                    <h1 class="pull-left">Detalle de notificación</h1>
+                </div>                
+                <div class="inbox-content">
+                    <div class="inbox-header inbox-view-header">
+                        <h1 class="pull-left">
+                            {SUBJECT} 
+                        </h1>
+                        <div class="pull-right">
+                            <a href="javascript: w=window.open(document.URL); w.print();"><i class="fa fa-print"></i></a>
+                        </div>
+                    </div>
+                    <div class="inbox-view-info">
+                        <div class="row">
+                            <div class="col-md-7">
+                                Mensaje de <span class="bold">{FROM_NAME} </span>                                
+                                para <span class="bold">{USERNAME}</span>                                                              
+                            </div>    
+                            <div class="col-md-5" style="text-align:right;">
+                                {SENDING_DATE}
+                            </div>                       
+                        </div>
+                    </div>
+                    <div class="inbox-view">
+                        {MESSAGE_CONTENT}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,21 @@
+<body style="text-align: center;" class="page-boxed page-header-fixed page-container-bg-solid page-sidebar-closed-hide-logo">
+    <div class="container">
+        <div class="logo">
+            <img class="logo-img" alt="" src="img/logo_s.png" />
+        </div>
+        <form id="login_form" name="login_form" action="" method="post">            
+
+            <input type="text"      id="username"   name="username"     class="form-control"    placeholder="Usuario"/>
+
+            <input type="password"  id="password"   name="password"     class="form-control"    placeholder="Contrase&ntilde;a" value="" />
+
+            <select id="company" name="company" class="form-control">
+                <option value="">Seleccione una empresa</option>
+                {COMPANIES}
+            </select>
+
+            <input type="submit" value="Acceder" class="btn btn-primary sb" />
+
+        </form>
+    </div>
+</body>

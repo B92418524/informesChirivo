@@ -1,0 +1,27 @@
+html,
+body {
+    height: 100%;
+    /* The html and body elements cannot have any padding or margin. */
+}
+
+/* Wrapper for page content to push down footer */
+#wrap {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    /* Negative indent footer by its height */
+    margin: 0 auto -300px;
+    /* Pad bottom by footer height */
+    padding: 0 0 300px;
+}
+
+.footer {
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: 70px;
+    background-color: #eee;
+    position:fixed;
+    bottom:0;
+    height:300px;
+    border-top:solid 3px #999;   
+}

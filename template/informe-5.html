@@ -1,0 +1,36 @@
+﻿<body role="document">
+    <div id="wrap">
+        <!-- Fixed navbar -->
+        {MAIN_MENU}
+        
+        <div class="row" style="margin: 50px 50px 10px 50px;">
+            <div class="col-md-12">
+                {FILTER}
+            </div>
+        </div>
+        
+        <script>
+            $('.selectpicker').chosen({ search_contains: true });
+        </script>
+
+
+        <div class="row" style="margin: 10px 50px 10px 50px;">
+            <div class="col-md-12">                
+                
+                {MAIN_CONTENT}
+                    
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <button style="position: absolute; top: -30px; right: 50%; left: 50%;" onclick="noframeStyle();" type="button" class="btn btn-xs btn-danger">Cerrar</button>
+            <iframe id="d1" style="width: 100%; height: 290px; border: 0; margin: 0; padding: 0;" src="blank.html"></iframe>
+        </div>
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+

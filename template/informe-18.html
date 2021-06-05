@@ -1,0 +1,316 @@
+﻿<style>
+    .table thead tr th {
+        vertical-align: middle;
+    }
+    .tablaFiltros td {
+        vertical-align: top;
+        padding: 0 15px;
+        width: 20%;
+    }
+    tr.rowTotal td {
+        border-top:4px solid black !important;
+        font-weight:bold;
+    }
+    .datepicker {
+        z-index: 999999;
+    }
+</style>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<body role="document">
+    <div id="wrap">
+        <!-- Fixed navbar -->
+        {MAIN_MENU}
+        
+        <div class="row" style="margin: 50px 50px 10px 50px;">
+            <div class="col-md-12">
+                {FILTRO}
+            </div>
+        </div>
+        <script src="assets/datepicker/locales/bootstrap-datepicker.es.min.js"></script>
+        <script src="assets/chosen/chosen.jquery.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="assets/datatables-1.10/datatables.min.css"/>
+        <script type="text/javascript" src="assets/datatables-1.10/datatables.min.js"></script>
+        <script>
+            $('.input-date').datepicker({ clearBtn: true, language: "es", autoclose: true });
+            $('.selectpicker').chosen({ search_contains: true });
+            $("#divSelContratos .search-field input").val("Seleccione contratos");
+            $("#divSelAnexos .search-field input").val("Seleccione anexos");
+            $("#divSelProyectos .search-field input").val("Seleccione proyectos");
+            $("#divSelProveedores .search-field input").val("Seleccione proveedores");
+            $("#divSelArticulos .search-field input").val("Seleccione articulos");
+        </script>
+
+        <div class="row" style="margin: 10px 50px 10px 50px;">
+            <div class="col-md-12">                
+                <table id="tablaGastosGenerales" class="table table-striped table-bordered sticky-header">
+                    <thead style="background-color:#fff;">
+                        <tr style="border:solid 1px silver;">
+                            <th>#</th>
+                            <th>Fecha albar&aacute;n</th>
+                            <th>N&ordm; albar&aacute;n</th>
+                            <th>Serie albar&aacute;n</th>
+                            <th style="min-width:200px;">Raz&oacute;n social</th>
+                            <th>Fecha factura</th>
+                            <th>C&oacute;digo art&iacute;culo</th>
+                            <th style="min-width:300px;">Descripci&oacute;n art&iacute;culo</th>
+                            <th>Unidades</th>
+                            <th>Importe Unitario Neto</th>
+                            <th>Importe Neto (B.I.)</th>
+                            <th>N&ordm; Su Factura</th>
+                            <th>Fecha Su Factura</th>
+                            <th>C&oacute;digo proyecto</th>
+                            <th style="min-width:300px;">Proyecto</th>
+                            <th>C&oacute;digo contrato</th>
+                            <th style="min-width:200px;">Contrato</th>
+                            <th>C&oacute;digo anexo</th>
+                            <th style="min-width:300px;">Anexo</th>                                                 
+                        </tr>
+                    </thead>
+                    {MAIN_CONTENT}
+                </table>
+            </div>
+        </div>
+    </div>
+<script type="text/javascript">
+    var imprimirFlag = false;
+
+    $(document).ready(function() {
+        obtenerTotalGastos();
+        rellenarPrimerCampo();
+        obtenerTotalGastosA();
+        obtenerFacturacionMesA();
+        obtenerImporteA();
+        obtenerDiferencia();
+        obtenerDiferenciaA();
+        imprimirFlag = true; //cuando pinte todo ya es posible imprimir el excel
+
+        $("#tablaGastosGenerales").DataTable({
+            "paging": false,
+            "ordering": true,
+            "info": false,
+            "searching": false
+        });
+    });
+
+    function obtenerTotalGastos() {
+        var nivel = $("#niveles").val();
+        if (nivel != 'contrato') {
+            var sumMeses = [];
+            /* en el bucle estan el numero de columnas 5 (Enero) -> 16 (Diciembre) */
+            for (var i = 4; i <= 15; i++) {
+                sum = 0;
+                /* recorro cada columna hacia abajo, sumo y guardo en el array */
+                $('#tablaGastosGenerales tr.rowTabla td:nth-child('+(i)+')').each(function () {
+                    var value = $(this).attr('name');
+                    if (!isNaN(value) && value.length != 0) {
+                        sum += parseFloat(value);
+                    }
+                });
+                sumMeses[i] = sum;
+                /* cuando termina cada columna, pinta en la casilla que le toca y pasa a la siguiente columna */
+                $('#tablaGastosGenerales tr.footerTotalGastos td:nth-child('+(i-2)+')').text(addPuntoEnMil(formatoMoneda(sumMeses[i])));
+                /* guardo el valor original para poder hacer calculos luego */
+                $('#tablaGastosGenerales tr.footerTotalGastos td:nth-child('+(i-2)+')').attr('name', sumMeses[i]);
+                /* si en los gastos generales da 0 alguna columna, controlar que en la fila de facturacion mensual no se 'calcule' (ponerla a 0) */
+                if (sumMeses[i] == 0) {
+                    $('#tablaGastosGenerales tr.footerFacturacionMes td:nth-child('+(i-2)+')').text('');
+                    $('#tablaGastosGenerales tr.footerFacturacionMes td:nth-child('+(i-2)+')').attr('name', '');
+                }
+            }
+        } else {
+            /* si filtra nivel contrato, los mismos datos de la primera fila deberán aparecer exactamente iguales en el footer */
+            var sumMeses = [];
+            /* en el bucle estan el numero de columnas 5 (Enero) -> 16 (Diciembre) */
+            for (var i = 4; i <= 15; i++) {
+                sum = 0;
+                /* recorro cada columna hacia abajo, sumo y guardo en el array */
+                $('#tablaGastosGenerales tr.rowTabla:nth-child(1) td:nth-child('+(i)+')').each(function () {
+                    var value = $(this).attr('name');
+                    if (!isNaN(value) && value.length != 0) {
+                        sum += parseFloat(value);
+                    }
+                });
+                sumMeses[i] = sum;
+                /* cuando termina cada columna, pinta en la casilla que le toca y pasa a la siguiente columna */
+                $('#tablaGastosGenerales tr.footerTotalGastos td:nth-child('+(i-2)+')').text(addPuntoEnMil(formatoMoneda(sumMeses[i])));   
+                /* guardo el valor original para poder hacer calculos luego */
+                $('#tablaGastosGenerales tr.footerTotalGastos td:nth-child('+(i-2)+')').attr('name', sumMeses[i]);
+                /* si en los gastos generales da 0 alguna columna, controlar que en la fila de facturacion mensual no se 'calcule' (ponerla a 0) */
+                if (sumMeses[i] == 0) {
+                    $('#tablaGastosGenerales tr.footerFacturacionMes td:nth-child('+(i-2)+')').text('');
+                    $('#tablaGastosGenerales tr.footerFacturacionMes td:nth-child('+(i-2)+')').attr('name', '');
+                }
+            }
+        }
+    }
+
+    function rellenarPrimerCampo() { //carga 3: TOTAL GASTOS GENERALES Acumulado + facturacion mensual acumulada + importe imputado acumulado
+        var contador = 1;
+        var value = 0;
+        var valueFormato = '';
+        /* el primer campo de las filas del footer son iguales a pares */
+        $('#tablaGastosGenerales tr.rowFooter td:nth-child(2)').each(function () {
+            if(contador%2 == 0) { // si es par, escribo el valor ahi
+                $(this).text(valueFormato);
+                $(this).attr('name', value);
+            } else { //si no es par, cojo el valor y lo guardo en la variable
+                value = $(this).attr('name');
+                valueFormato = $(this).text();
+            }
+            contador++;
+        });
+    }
+
+    function obtenerTotalGastosA() {
+        for (var i = 3; i <= 13; i++) {
+            var value = $('#tablaGastosGenerales tr.footerTotalGastos td:nth-child('+(i)+')').attr('name');
+            var valueA = $('#tablaGastosGenerales tr.footerTotalGastosA td:nth-child('+(i-1)+')').attr('name');
+            if (valueA === undefined) { //si no tiene atributo name porque no tiene el primer valor (Enero)
+                valueA = 0;
+            }
+            if (value != 0) {
+                /* calculo el acumulado de los dos valores y lo escribo en en siguiente campo que toca */
+                acumulado = parseFloat(value) + parseFloat(valueA);
+                $('#tablaGastosGenerales tr.footerTotalGastosA td:nth-child('+(i)+')').attr('name', acumulado);
+                $('#tablaGastosGenerales tr.footerTotalGastosA td:nth-child('+(i)+')').text(addPuntoEnMil(formatoMoneda(acumulado)));
+            }
+        }
+    }
+
+    function obtenerFacturacionMesA() {
+        for (var i = 3; i <= 13; i++) {
+            var value = $('#tablaGastosGenerales tr.footerFacturacionMes td:nth-child('+(i)+')').attr('name');
+            var valueA = $('#tablaGastosGenerales tr.footerFacturacionMesA td:nth-child('+(i-1)+')').attr('name');
+            if (valueA === undefined) { //si no tiene atributo name porque no tiene el primer valor (Enero)
+                valueA = 0;
+            }
+            if (value != 0) {
+                acumulado = parseFloat(value) + parseFloat(valueA);
+                $('#tablaGastosGenerales tr.footerFacturacionMesA td:nth-child('+(i)+')').attr('name', acumulado);
+                $('#tablaGastosGenerales tr.footerFacturacionMesA td:nth-child('+(i)+')').text(addPuntoEnMil(formatoMoneda(acumulado)));
+            }
+        }
+    }
+
+    function obtenerPorcentaje() {
+        var ggbi = $('#ggbi').val();
+        for (var i = 2; i <= 13; i++) { //en este caso empieza en ENERO!! (2)
+            var totalGastos = $('#tablaGastosGenerales tr.footerTotalGastos td:nth-child('+(i)+')').attr('name');
+            var facturacionMes = $('#tablaGastosGenerales tr.footerFacturacionMes td:nth-child('+(i)+')').attr('name');
+
+            var valor1 = parseFloat(totalGastos);
+            var valor2 = parseFloat(facturacionMes) * (1+ggbi/100);
+            var porcentaje = (valor1 / valor2) * 100;
+
+            if (totalGastos != 0 && facturacionMes != 0) {
+                $('#tablaGastosGenerales tr.footerPorcentaje td:nth-child('+(i)+')').attr('name', porcentaje);
+                $('#tablaGastosGenerales tr.footerPorcentaje td:nth-child('+(i)+')').text(addPuntoEnMil(formatoMoneda(porcentaje)));
+
+                if (i == 2) { //aqui no existe aun el calculo y no lo puede coger
+                    $('#tablaGastosGenerales tr.footerPorcentajeA td:nth-child('+(i)+')').attr('name', porcentaje);
+                    $('#tablaGastosGenerales tr.footerPorcentajeA td:nth-child('+(i)+')').text(addPuntoEnMil(formatoMoneda(porcentaje)));
+                }
+            }
+        }
+    }
+
+    function obtenerPorcentajeA() {
+        var ggbi = $('#ggbi').val();
+        for (var i = 3; i <= 13; i++) {
+            /* sacamos desde el mes actual hacia atras la suma de todos los totales de gastos */
+            var datoGeneral = $('#tablaGastosGenerales tr.footerTotalGastos td:nth-child('+(i)+')').attr('name');
+            var datoFactura = $('#tablaGastosGenerales tr.footerFacturacionMes td:nth-child('+(i)+')').attr('name');
+            
+            if (datoGeneral != 0 || datoFactura != 0) {
+                var totalGastos = 0;
+                for (var j = i; j >= 2; j--) {
+                    totalGastos += parseFloat($('#tablaGastosGenerales tr.footerTotalGastos td:nth-child('+(j)+')').attr('name'));
+                }
+
+                var facturacionMes = 0;
+                for (var j = i; j >= 2; j--) {
+                    facturacionMes += parseFloat($('#tablaGastosGenerales tr.footerFacturacionMes td:nth-child('+(j)+')').attr('name'));
+                }
+
+                var valor1 = parseFloat(totalGastos);
+                var valor2 = parseFloat(facturacionMes) / (1+ggbi/100); //puse multiplicación, y es división
+                var acumulado = (valor1 / valor2) * 100;
+
+                $('#tablaGastosGenerales tr.footerPorcentajeA td:nth-child('+(i)+')').attr('name', acumulado);
+                $('#tablaGastosGenerales tr.footerPorcentajeA td:nth-child('+(i)+')').text(addPuntoEnMil(formatoMoneda(acumulado)));
+            }
+        }
+        console.log("antes daba estos resultados: 15,06     11,60   11,23   9,10    8,29    8,00    7,09    7,10");
+    }
+
+    function obtenerImporteA() {
+        for (var i = 3; i <= 13; i++) {
+            var value = $('#tablaGastosGenerales tr.footerImporte td:nth-child('+(i)+')').attr('name');
+            var valueA = $('#tablaGastosGenerales tr.footerImporteA td:nth-child('+(i-1)+')').attr('name');
+            if (valueA === undefined) { //si no tiene atributo name porque no tiene el primer valor (Enero)
+                valueA = 0;
+            }
+            if (value != 0) {
+                acumulado = parseFloat(value) + parseFloat(valueA);
+                $('#tablaGastosGenerales tr.footerImporteA td:nth-child('+(i)+')').attr('name', acumulado);
+                $('#tablaGastosGenerales tr.footerImporteA td:nth-child('+(i)+')').text(addPuntoEnMil(formatoMoneda(acumulado)));
+            }
+        }
+    }
+
+    function obtenerDiferencia() {
+        for (var i = 2; i <= 13; i++) { //en este caso empieza en ENERO!! (2)
+            var totalGastos = $('#tablaGastosGenerales tr.footerTotalGastos td:nth-child('+(i)+')').attr('name');
+            var importeObras = $('#tablaGastosGenerales tr.footerImporte td:nth-child('+(i)+')').attr('name');
+            var diferencia = parseFloat(totalGastos) - parseFloat(importeObras);
+            $('#tablaGastosGenerales tr.footerDiferencia td:nth-child('+(i)+')').attr('name', diferencia);
+            $('#tablaGastosGenerales tr.footerDiferencia td:nth-child('+(i)+')').text(addPuntoEnMil(formatoMoneda(diferencia)));
+
+            if (i == 2) { //aqui no existe aun el calculo y no lo puede coger
+                $('#tablaGastosGenerales tr.footerDiferenciaA td:nth-child('+(i)+')').attr('name', diferencia);
+                $('#tablaGastosGenerales tr.footerDiferenciaA td:nth-child('+(i)+')').text(addPuntoEnMil(formatoMoneda(diferencia)));
+            }
+        }
+    }
+
+    function obtenerDiferenciaA() {
+        for (var i = 3; i <= 13; i++) {
+            var value = $('#tablaGastosGenerales tr.footerDiferencia td:nth-child('+(i)+')').attr('name');
+            var valueA = $('#tablaGastosGenerales tr.footerDiferenciaA td:nth-child('+(i-1)+')').attr('name');
+            if (valueA === undefined) { //si no tiene atributo name porque no tiene el primer valor (Enero)
+                valueA = 0;
+            }
+            if (value != 0) {
+                acumulado = parseFloat(value) + parseFloat(valueA);
+                $('#tablaGastosGenerales tr.footerDiferenciaA td:nth-child('+(i)+')').attr('name', acumulado);
+                $('#tablaGastosGenerales tr.footerDiferenciaA td:nth-child('+(i)+')').text(addPuntoEnMil(formatoMoneda(acumulado)));
+            }
+        }
+    }
+
+    function formatoMoneda(n) {
+        if (n == '') {
+            return '';    
+        }
+    
+        n = n.toFixed(2).replace('.',',');
+        n = n.toString();
+        //n = n + ' €';
+            
+        return n;
+    }
+
+    function addPuntoEnMil(nStr) {
+        nStr += '';
+        var x = nStr.split('.');
+        var x1 = x[0];
+        var x2 = x.length > 1 ? '.' + x[1] : '';
+        var rgx = /(\d+)(\d{3})/;
+        while (rgx.test(x1)) {
+            x1 = x1.replace(rgx, '$1' + '.' + '$2');
+        }
+        return x1 + x2;
+    }
+</script>
+<script src="assets/sticky-header.js"></script>
+</body>

@@ -1,0 +1,27 @@
+﻿<form action="" method="get">
+    <table style="width: 100%; margin-bottom:20px;">
+        <tr>
+            <td style="padding-left:15px;padding-top:15px;width: 25%">
+                <select class="form-control selectpicker" data-live-search="true" id="project" name="project">
+                    <option value="0">Todos los proyectos</option>
+                    {PROYECTOS} 
+                </select>
+            </td>
+            <td style="padding-left:15px;padding-top:15px;width: 25%">
+                <select class="form-control selectpicker" data-live-search="true" id="proveedor" name="proveedor">
+                    <option value="0">Todos los proveedores</option>
+                    {PROVEEDORES} 
+                </select>
+            </td>
+            <td style="width: 5%">
+                <button style="margin-left: 20px;" type="submit" class="btn btn-primary btn-sm">Filtrar</button>
+            </td>
+            <td style="width: 5%">
+                <a href="informe-16.php" style="margin-left: 20px;" type="submit" class="btn btn-default btn-sm">Borrar</a>
+            </td>
+            <td style="width: 5%">
+                {EXCEL_URL}
+            </td>
+        </tr>
+    </table>
+</form>

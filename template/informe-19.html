@@ -1,0 +1,166 @@
+﻿<style>
+    #tablaImportesFacturacion thead tr th {
+        vertical-align: middle;
+    }
+    td.right {
+        text-align: right;
+    }
+    th.cabMes {
+        min-width: 100px;
+    }
+    td.colMes {
+        text-align: right;
+    }
+    .table-bordered > tbody > tr.borde > td {
+        border-top: 5px solid black;
+    }
+    .table-bordered > tbody > tr.borde-abajo > td {
+        border-bottom: 5px solid black;
+    }
+    tr.rowFooter {
+        background-color: #ccc;
+    }
+    tr.rowFooter td.rowFooterEnc {
+        text-align: right;
+    }
+    tr.rowFooter td {
+        vertical-align: middle;
+        text-align: right;
+    }
+</style>
+<body role="document">
+    <div id="wrap">
+        {MAIN_MENU}
+        
+        <div class="row" style="margin: 50px 50px 10px 50px;">
+            <div class="col-md-12">
+                {FILTRO}
+            </div>
+        </div>
+        <div id="cargandoEjecucionProceso" style="padding:10px 0 10px 20px"></div>
+        <div class="row" style="margin: 10px 50px 10px 50px;">
+            <div class="col-md-12">                
+                <table id="tablaImportesFacturacion" class="table table-striped table-bordered sticky-header">
+                    <thead style="background-color:#fff;">
+                        <tr style="border:solid 1px silver;">
+                            <th>#</th>
+                            <th style="min-width:5px;">C&oacute;d.</th>
+                            <th style="min-width:300px;">Obra</th>
+                            <th class="cabMes">Inicial</th>
+                            <th class="cabMes">Finales Enero</th>
+                            <th class="cabMes">Finales Febrero</th>
+                            <th class="cabMes">Finales Marzo</th>
+                            <th class="cabMes">Finales Abril</th>
+                            <th class="cabMes">Finales Mayo</th>
+                            <th class="cabMes">Finales Junio</th>
+                            <th class="cabMes">Finales Julio</th>
+                            <th class="cabMes">Finales Agosto</th>
+                            <th class="cabMes">Finales Septiembre</th>
+                            <th class="cabMes">Finales Octubre</th>
+                            <th class="cabMes">Finales Noviembre</th>
+                            <th class="cabMes">Finales Diciembre</th>
+                            <th style="min-width:1px;max-width:1px"></th>
+                            <th>Importe proyecto a origen</th>
+                            <th>Facturado a origen</th>
+                            <th style="min-width:1px;max-width:1px"></th>
+                            <th>Importe proyecto a origen a&ntilde;o actual</th>
+                            <th>Facturado a origen a&ntilde;o actual</th>
+                            <th>Pendiente de ejecuci&oacute;n a&ntilde;o actual</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {MAIN_CONTENT}
+                        <tr class="rowFooter footerTotalFacturacionA">
+                            <td class="rowFooterEnc" colspan="3">FACTURACI&Oacute;N MENSUAL ACUMULADO</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>  
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+<script type="text/javascript">
+    var imprimirFlag = false;
+
+    $(document).ready(function() {
+        obtenerTotalFacturacionA();
+        imprimirFlag = true; //cuando pinte todo ya es posible imprimir el excel
+    });
+
+    // function obtenerTotalFacturacion() {
+    //     var sumMeses = [];
+    //     /* en el bucle estan el numero de columnas 4 Inicial -> 16 Diciembre */
+    //     for (var i = 4; i <= 16; i++) {
+    //         sum = 0;
+    //         /* recorro cada columna hacia abajo, sumo y guardo en el array */
+    //         $('#tablaImportesFacturacion tr.rowTabla td:nth-child('+(i)+')').each(function () {
+    //             var value = $(this).attr('name');
+    //             if (!isNaN(value) && value.length != 0) {
+    //                 sum += parseFloat(value);
+    //             }
+    //         });
+    //         sumMeses[i] = sum;
+    //         /* cuando termina cada columna, pinta en la casilla que le toca y pasa a la siguiente columna */
+    //         $('#tablaImportesFacturacion tr.footerTotalFacturacion td:nth-child('+(i-2)+')').text(addPuntoEnMil(formatoMoneda(sumMeses[i])));
+    //         /* guardo el valor original para poder hacer calculos luego */
+    //         $('#tablaImportesFacturacion tr.footerTotalFacturacion td:nth-child('+(i-2)+')').attr('name', sumMeses[i]);
+    //     }
+    // }
+
+    function obtenerTotalFacturacionA() {
+        var rowFooter = $(".footerTotalFacturacion");
+        if (rowFooter.length > 0) {
+            for (var i = 2; i <= 14; i++) {
+                var value = $('#tablaImportesFacturacion tr.footerTotalFacturacion td:nth-child('+(i)+')').attr('name');
+                var valueA = $('#tablaImportesFacturacion tr.footerTotalFacturacionA td:nth-child('+(i-1)+')').attr('name');
+                if (valueA === undefined) { //si no tiene atributo name porque no tiene el primer valor (Enero)
+                    valueA = 0;
+                }
+                if (value != 0) {
+                    /* calculo el acumulado de los dos valores y lo escribo en el siguiente campo que toca */
+                    var acumulado = parseFloat(value) + parseFloat(valueA);
+                    $('#tablaImportesFacturacion tr.footerTotalFacturacionA td:nth-child('+(i)+')').attr('name', acumulado);
+                    $('#tablaImportesFacturacion tr.footerTotalFacturacionA td:nth-child('+(i)+')').text(addPuntoEnMil(formatoMoneda(acumulado)));
+                }
+            }
+        }
+    }
+
+    function formatoMoneda(n) {
+        if (n == '') {
+            return '';    
+        }
+    
+        n = n.toFixed(2).replace('.',',');
+        n = n.toString();
+        //n = n + ' €';
+            
+        return n;
+    }
+
+    function addPuntoEnMil(nStr) {
+        nStr += '';
+        var x = nStr.split('.');
+        var x1 = x[0];
+        var x2 = x.length > 1 ? '.' + x[1] : '';
+        var rgx = /(\d+)(\d{3})/;
+        while (rgx.test(x1)) {
+            x1 = x1.replace(rgx, '$1' + '.' + '$2');
+        }
+        return x1 + x2;
+    }
+</script>
+<script src="assets/sticky-header.js"></script> 
+</body>

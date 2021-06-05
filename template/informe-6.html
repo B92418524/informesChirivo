@@ -1,0 +1,120 @@
+﻿<body role="document">
+    <div id="wrap">
+        <!-- Fixed navbar -->
+        {MAIN_MENU}
+
+        <div class="row">
+
+            <div class="col-md-12">
+
+                <form action="informe-6.php" method="post" enctype="multipart/form-data" id="registro_factura" name="registro_factura" class="registro_factura dropzone">
+                    <h3 style="text-align:center;">Registro de facturas</h3>
+
+                    <div style="text-align:center; font-style:italic; color:red; margin-top:30px;">Escriba los importes sin separador de miles y usando coma como separador decimal. Ej: 19899,98</div>
+                    <div style="clear:both;"></div>
+                    {ERROR}
+                    <table style="margin-top:30px; width:100%;">
+                        <tr>
+                            <td colspan="2" style="padding-bottom:30px;">
+                                <div style="height:20px; font-weight:bold; width:100%; text-align:center; padding-bottom:5px;" id="info_by_cif" name="info_by_cif">&nbsp;</div>
+                                <div class="input-group" style="width:100%;">
+                                    <div class="input-group-addon">CIF</div>
+                                    <input onkeyup="proveedor_por_cif()" onblur="proveedor_por_cif()" type="text" class="form-control" id="cif" name="cif" value="{CIF}">
+                                </div>
+                                <!--
+                    <select class="form-control selectpicker" data-live-search="true" id="pr" name="pr" style="width: 100%">
+                        <option value="">Seleccione un proveedor</option>
+                        {SUPPLIERS}
+                    </select>
+                    -->
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding-bottom:30px;">
+                                <div class="input-group" style="width:90%;">
+                                    <div class="input-group-addon">Fecha</div>
+                                    <input type="date" class="form-control input-date form-control" id="date" name="date" value="{DATE}">
+                                </div>
+                            </td>
+                            <td style="text-align:right; padding-bottom:30px;">
+                                <div class="input-group" style="width:90%; margin-left:auto; margin-right:0;">
+                                    <div class="input-group-addon">N Factura</div>
+                                    <input type="text" maxlength="15" class="form-control" id="nfac" name="nfac" value="{NFAC}">
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding-bottom:30px;">
+                                <div class="input-group" style="width:90%;">
+                                    <div class="input-group-addon">Base imponible</div>
+                                    <input type="text" class="form-control" id="bimp" name="bimp" value="{BIMP}">
+                                    <div class="input-group-addon">&euro;</div>
+                                </div>
+                            </td>
+                            <td style="text-align:right; padding-bottom:30px;">
+                                <div class="input-group" style="width:90%; margin-left:auto; margin-right:0;">
+                                    <div class="input-group-addon">Importe</div>
+                                    <input type="text" class="form-control" id="imp" name="imp" value="{IMP}">
+                                    <div class="input-group-addon">&euro;</div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="text-align:center; padding-top:20px;">
+                                <input type="file" name="pdf" id="pdf" accept="application/pdf" value="{PDF}">
+                            </td>
+                        </tr>
+
+                        <tr style="text-align:center;">
+                            <td colspan="2" style="padding-top:50px;">
+                                <input type="submit" class="btn btn-primary" value="Guardar">
+                                <input type="hidden" name="sent" id="sent" value="ok" />
+                                <input type="hidden" name="empresa" id="empresa" value="{ID_EMPRESA}" />
+                            </td>
+                        </tr>
+                    </table>
+
+                </form>
+            </div>
+
+        </div>
+
+
+        <script>
+            jQuery('[type="file"]').ezdz({
+                text: 'Arrastre aqui la factura',
+                reject: function (file, errors) {
+                    if (errors.mimeType) {
+                        alert(file.name + ' debe ser un PDF.');
+                    }                    
+                }
+            });
+        </script>
+
+
+        <script>
+            //$('.input-date').datepicker({ clearBtn: true, language: "es", autoclose: true, todayHighlight: true });
+        </script>
+
+        <script>
+            proveedor_por_cif();
+        </script>
+
+        <!--
+        <script>
+            $('.selectpicker').chosen({ search_contains: true });
+        </script>
+        -->
+
+        
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+        </div>
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+

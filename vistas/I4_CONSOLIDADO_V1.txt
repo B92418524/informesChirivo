@@ -1,0 +1,27 @@
+﻿USE [ReportingChirivo]
+GO
+
+/****** Object:  View [dbo].[I4_CONSOLIDADO]    Script Date: 01/14/2016 11:49:57 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+ALTER VIEW [dbo].[I4_CONSOLIDADO]
+AS
+SELECT     dbo.jefes_de_obra.CODIGOPROYECTO AS D_CODIGO_PROYECTO, dbo.jefes_de_obra.NOMBRE AS D_NOMBRE_JEFE_OBRA, 
+                      dbo.jefes_de_obra.ID_JEFE_OBRA AS D_ID_JEFE_OBRA, dbo.jefes_de_obra.EMAIL, dbo.jefes_de_obra.ACTIVO, dbo.jefes_de_obra.PROYECTO AS D_PROYECTO, 
+                      dbo.obras_clientes.codigoempresa, dbo.obras_clientes.codigocliente AS D_CODIGO_CLIENTE, dbo.obras_clientes.razonsocial AS D_RAZON_SOCIAL_CLIENTE, 
+                      dbo.importes_contrato.importecontrato AS D_IMPORTE_CONTRATO
+FROM         dbo.jefes_de_obra INNER JOIN
+                      dbo.obras_clientes ON dbo.jefes_de_obra.CODIGOPROYECTO = dbo.obras_clientes.codigoproyecto left outer JOIN
+                      dbo.importes_contrato ON dbo.jefes_de_obra.CODIGOPROYECTO = dbo.importes_contrato.codigoproyecto AND 
+                      dbo.obras_clientes.codigocliente = dbo.importes_contrato.codigocliente
+GROUP BY dbo.jefes_de_obra.CODIGOPROYECTO, dbo.jefes_de_obra.NOMBRE, dbo.jefes_de_obra.ID_JEFE_OBRA, dbo.jefes_de_obra.EMAIL, dbo.jefes_de_obra.ACTIVO, 
+                      dbo.jefes_de_obra.PROYECTO, dbo.obras_clientes.codigoempresa, dbo.obras_clientes.codigocliente, dbo.obras_clientes.razonsocial, 
+                      dbo.importes_contrato.importecontrato
+
+
+GO

@@ -1,0 +1,59 @@
+﻿<body role="document">
+    <div id="wrap">
+        <!-- Fixed navbar -->
+        {MAIN_MENU}
+               
+        <script src="assets/jquery.min.js"></script>
+        <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+        <script src="assets/datepicker/js/bootstrap-datepicker.min.js"></script>
+        <script src="assets/datepicker/locales/bootstrap-datepicker.es.min.js"></script>
+        <script src="assets/chosen/chosen.jquery.min.js"></script>
+        <!--<script src="assets/search_select/js/bootstrap-select.min.js"></script>-->
+        <script src="assets/bootstrap/js/custom.js"></script>
+        <script>
+            $('.input-date').datepicker({ clearBtn: true, language: "es", autoclose: true, todayHighlight: true });
+            $('.selectpicker').chosen({ search_contains: true });
+        </script>
+
+        <form name="flitro_i4_d1" method="get">
+            <div class="row" style="margin: 50px 50px 10px 50px;">
+                <div class="col-md-6" style="text-align:right;"></div>
+                <div class="col-md-5" style="vertical-align:bottom;">{FILTER}</div>
+                <div class="col-md-1" style="vertical-align:bottom;"><input type="submit" class="btn btn-primary" value="Ver"/></div>
+            </div>
+        </form>
+
+        <div class="row" style="margin: 50px 50px 10px 50px;">
+            <div class="col-md-12">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th style="vertical-align:middle; text-align:center;" rowspan="2">#</th>
+                            <th style="vertical-align:middle; text-align:center;" rowspan="2">ID Informe</th>
+                            <th style="vertical-align:middle; text-align:center;" rowspan="2">Jefe Obra</th>
+                            <th style="vertical-align:middle; text-align:center;" rowspan="2">Email</th>
+                            <th style="vertical-align:middle; text-align:center;" rowspan="2">Obra</th>
+                            <th style="vertical-align:middle; text-align:center;" rowspan="2">Mes</th>
+                            <th style="vertical-align:middle; text-align:center;" rowspan="2">A&ntilde;o</th>
+                            <th style="vertical-align:middle; text-align:center;" rowspan="2">Fecha generaci&oacute;n</th>
+                            <th style="vertical-align:middle; text-align:center;" rowspan="2">Estado</th>
+                            <th style="vertical-align:middle; text-align:center;" rowspan="2">Ver</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {MAIN_CONTENT}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer"></footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+
+</body>
+
+

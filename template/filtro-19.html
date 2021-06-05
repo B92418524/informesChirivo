@@ -1,0 +1,153 @@
+﻿<form action="" method="get">
+    <table style="width: 100%; margin-bottom:20px;">
+        <tr>
+            <td style="padding-left:15px;width: 5%">
+                <label>Ejercicio</label>
+            </td>
+            <td style="padding: 5px;width: 7%">
+                <select class="form-control" data-live-search="true" id="ejercicios" name="ejercicios">      
+                </select>
+            </td>
+            <td style="padding: 5px;width: 15%">
+                <select class="form-control" id="estados" name="estados">
+                    <option value="activas">Obras activas</option>
+                    <option value="inactivas">Obras inactivas</option>
+                    <option value="ptes">Obras pendientes facturaci&oacute;n</option>
+                    <option value="todas">Todas las obras</option>
+                </select>
+            </td>
+            <td style="padding-left:15px;width: 30%">
+                <select class="form-control selectpicker" data-live-search="true" id="obras" name="obras[]" multiple placeholder="Seleccione una obra" >
+                    <option value="0">Todas las obras</option>
+                    {OBRAS}
+                </select>
+            </td>
+            <td style="width: 5%">
+                <input style="margin-left: 20px;" type="button" class="btn btn-danger btn-sm" onclick="ejecutarProcedimiento();" value="Actualizar informe" />
+            </td>
+            <td style="width: 5%">
+                <button id="btnFiltrar" style="margin-left: 20px;" type="submit" class="btn btn-primary btn-sm">Filtrar</button>
+            </td>
+            <td style="width: 5%">
+                <a href="informe-19.php" style="margin-left: 20px;" type="submit" class="btn btn-default btn-sm">Borrar</a>
+            </td>
+            <td style="width: 5%">
+                {EXCEL_URL}
+            </td>
+        </tr>
+    </table>
+</form>
+<form id="enviarPostExcel" style="display:hidden" action="" method="POST"></form>
+<script src="assets/jquery.min.js"></script>
+<script src="assets/chosen/chosen.jquery.min.js"></script> 
+<script type="text/javascript">
+    var selObras;
+    var loading = "<img style='width:38px;margin-left:40px;' src='img/loading.gif' />";
+
+    $(document).ready(function() {
+        selObras = $("#obras").chosen({ search_contains: true });
+        $("#obras_chosen .search-field input").val("Seleccione una obra");
+
+        var anioActual = (new Date).getFullYear();
+        var getEjercicios = getParameterByName('ejercicios');
+        var getEstados = getParameterByName('estados');
+
+        /* llenar select de años */
+        var primero = true;
+        for (var i = anioActual; i >= 2017; i--) {
+            if (primero) {
+                $("#ejercicios").append($("<option>", {
+                    value: i,
+                    text: i,
+                    selected: ""
+                }));
+            } else {
+                $("#ejercicios").append($("<option>", {
+                    value: i,
+                    text: i
+                }));
+            }
+            primero = false;
+        }
+
+        if (getEjercicios != '' && getEjercicios !== null) {
+            $("#ejercicios").val(getEjercicios);
+        } else {
+            $("#ejercicios").val(anioActual);
+        }
+
+        if (getEstados != '' && getEstados !== null) {
+            $("#estados").val(getEstados);
+        }
+
+        $("#btnExcel").click(function(e) {
+            e.preventDefault();
+            if (imprimirFlag) {
+                var href = $(this).attr("href");
+                $("#enviarPostExcel").attr("action", href);
+                $("#enviarPostExcel").html(""); //lo vacio antes por si acaso
+
+                var i = 0;
+                $("#tablaGastosGenerales tr.rowFooter").each(function() {
+                    var row = Array();
+                    $(this).children("td").each(function() {
+                        var tdText = $(this).text();
+                        if (tdText != "") {
+                            $("#enviarPostExcel").append('<input type="hidden" id="aFila" name="aFila'+i+'[]" value="'+tdText+'"/>');
+                        }
+                    });
+                    i++;
+                });
+
+                $("#enviarPostExcel").submit();
+            } else {
+                alert("Espere un momento para que se carguen las tablas inferiores.");
+            }
+        });
+
+        $("body").on("change", ".search-choice", function() {
+            $("#obras_chosen .search-field input").val("Seleccione una obra");
+        });
+
+        $("body").on("change", "#estados", function() {
+            var estado = $(this).val();
+            $.ajax({
+                url: "functions/render/ajax/informe-19.php",
+                data: {estado: estado, accion: 'obtenerObrasFiltro'},
+                method: "post",
+                success: function(data) {
+                    selObras.empty();
+                    var options = $('<option value="0">Todas las obras</option>'+data);
+                    selObras.append(options);
+                    selObras.trigger("chosen:updated");
+                    $("#obras_chosen .search-field input").val("Seleccione una obra");
+                }
+            });
+        }); 
+    });
+
+    function ejecutarProcedimiento() {
+        var ejercicio = $("#ejercicios").val();
+        $.ajax({
+            url: "functions/render/ajax/informe-19.php",
+            data: {accion: "ejecutarProcedimiento", ejercicio: ejercicio},
+            method: "post",
+            beforeSend: function() {
+                $("#cargandoEjecucionProceso").html("Por favor espere " + loading);
+            },
+            success: function(data) {
+                $("#btnFiltrar").click();
+            }
+        });
+    }
+
+    function getParameterByName(name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+</script>

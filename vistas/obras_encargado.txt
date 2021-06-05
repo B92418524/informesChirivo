@@ -1,0 +1,17 @@
+﻿USE [ReportingChirivo]
+GO
+
+/****** Object:  View [dbo].[obras_encargado]    Script Date: 01/14/2016 12:46:34 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+
+ALTER view [dbo].[obras_encargado] as 
+select codigoproyecto, proyecto, id_jefe_obra, nombre from jefes_de_obra
+GO
+
+

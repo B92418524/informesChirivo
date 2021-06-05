@@ -1,0 +1,389 @@
+/*
+DISEÑADO POR : Bea Ramón Márquez
+ */
+
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Rubik-Light', sans-serif;
+    height: 100%;
+}
+
+body, .contenedorContrato, .contenedorContrato .cabecera, .contenedorContrato .contenido {
+    width: 100%;
+    margin: 10px auto;
+}
+
+.contenedorContrato ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.contenedorContrato ul li {
+    cursor: pointer;
+    overflow: hidden;
+}
+
+h3, .h3 {
+    padding: 15px;
+    margin: 0;
+    line-height: 30px;
+    font-size: 15px;
+    text-transform: uppercase;
+    font-weight: normal;
+    cursor: pointer;
+}
+
+input[type='text'], .text {
+    color: #444444;
+    width: 100%;
+    display: inline-block;
+    border: none;
+    background: none;
+    background-color: #fff;
+    padding: 7px 18px;
+    height: 40px;
+    font-size: 14px;
+    outline: none;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-shadow: none;
+    border: 1px solid #CCC5B9;
+    border-radius: 4px;
+    transition: background-color 0.3s ease 0s;
+}
+
+input, .text, select, select option, textarea {
+    font-family: 'Rubik-Light', sans-serif;
+}
+
+input[type='file'] {
+    height: auto;
+    border: none;
+    cursor: pointer;
+    padding: 11px 0;
+}
+
+select {
+    height: 40px;
+    width: 100%;
+    font-size: 17px;
+    color: #444444;
+}
+
+textarea {
+    resize: vertical;
+    border: none;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 98%;
+    padding: 7px;
+    position: relative;
+    left: 2px;
+    outline: none;
+    font-size: 1em;
+    border-radius: 0;
+}
+
+ul li {
+    -webkit-transition: all .5s ease;
+       -moz-transition: all .5s ease;
+        -ms-transition: all .5s ease;
+         -o-transition: all .5s ease;
+            transition: all .5s ease;
+}
+
+.contenedorContrato .contenido .formulario {
+    margin: 5px 5px 0 5px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+
+/* ----- FORMULARIO ----- */
+
+.formulario label {
+    display: inline-block;
+    color: #444444;
+    max-width: 100%;
+}
+
+input[disabled], input[readonly] {
+    background-color: #E3E3E3;
+    cursor: not-allowed;
+    color: #444444;
+}
+
+.gris {
+    background-color: #F1F0EC;
+}
+
+.formulario {
+    overflow: hidden;
+    border-radius: 6px;
+    box-shadow: 0 2px 2px rgba(204, 197, 185, 0.5);
+    background-color: #FFFFFF;
+    color: #444444;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
+    background-color: #fff;
+    padding: 15px 15px 10px 15px;
+}
+
+.row {
+    clear: both;
+}
+
+.col {
+    float: left;
+    padding: 6px;
+}
+
+.col-md-12 {
+    width: 100%;
+}
+
+.col-md-10 {
+    width: 83.33333333%;
+}
+
+.col-md-9 {
+    width: 75%;
+}
+
+.col-md-8 {
+    width: 66.66666667%;
+}
+
+.col-md-7 {
+    width: 58.33333333%;
+}
+
+.col-md-6 {
+    width: 50%;
+}
+
+.col-md-5 {
+    width: 41.66666667%;
+}
+
+.col-md-4 {
+    width: 33.33333333%;
+}
+
+.col-md-3 {
+    width: 25%;
+}
+
+.col-md-2 {
+    width: 16.66666667%;
+}
+
+.col-md-1 {
+    width: 8.333333333333332%;
+}
+
+.col-xs-4 {
+    width: 33.33333333% !important;
+}
+
+.right {
+  text-align: right;
+}
+
+h3 {
+  font-size: 1.2em;
+}
+
+textarea {
+  width: 100%;
+  border: 1px solid #CCC5B9;
+}
+
+input[type="radio"] {
+  cursor: pointer;
+}
+
+.acidjs-css3-treeview,
+.acidjs-css3-treeview * {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.acidjs-css3-treeview .lblSelec:after {
+    content: "\25bc";
+    vertical-align: middle;
+    position: relative;
+    top: 3px;
+    margin-left: 10px
+}
+
+.acidjs-css3-treeview .lblSelec > span {
+  font-size: 14px;
+}
+
+.acidjs-css3-treeview li ul
+{
+    margin: 0 0 0 50px;
+}
+ 
+.acidjs-css3-treeview *
+{
+    vertical-align: middle;
+}
+ 
+.acidjs-css3-treeview
+{
+    font: normal 11px/16px "Segoe UI", Arial, Sans-serif;
+}
+ 
+.acidjs-css3-treeview li
+{
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}
+ 
+.acidjs-css3-treeview input[type="checkbox"]
+{
+    display: none;
+}
+ 
+.acidjs-css3-treeview label
+{
+    cursor: pointer;
+}
+ 
+.acidjs-css3-treeview input[type="checkbox"][id]:not(:checked) ~ ul
+{
+    display: none;
+}
+ 
+.acidjs-css3-treeview label:not([for])
+{
+    margin: 0 8px 0 0;
+}
+
+.pregunta label {
+  font-size: 14px;
+  margin-right: 30px
+}
+
+input[type="button"], input[type="submit"] {
+  height: 32px;
+  background: #e74c3c;
+  border-radius: 5px;
+  border: 0;
+  margin: 7px 0;
+  color: white;
+  padding: 0 20px 0 20px;
+  border-bottom: 3px solid #c0392b;
+  transition: all ease .2s;
+  cursor: pointer;
+  outline: none;
+}
+
+input[type="button"]:hover, input[type="submit"]:hover {
+  background: #c0392b;
+}
+
+input[type="button"]:focus, input[type="submit"]:focus {
+  outline: none;
+}
+
+input[type="button"]:active, input[type="submit"]:active {
+  position: relative;
+  top: 1px;
+  background: #1abc9c;
+  border-bottom: 3px solid #0E9E81;
+}
+
+input.submit {
+  display: block;
+  margin:0 auto;
+}
+
+button.selected, input[type="button"].selected {
+  background: #1abc9c;
+  border-bottom: 3px solid #0E9E81;
+}
+
+.oculto, input[type="text"].oculto {
+  display: none;
+}
+
+#tablaAdmins_filter {
+  float: right;
+}
+
+.eliminarAdmin, .icon-refresh {
+  font-size: 18px;
+  background-color: red;
+  padding: 7px 11px;
+  border-radius: 5px;
+  color: #fff;
+}
+
+.eliminarAdmin:hover {
+  background-color: #B52020;
+}
+
+.icon-refresh {
+  background-color: #5079D2;
+}
+
+#tablaContratos thead tr th {
+    vertical-align: middle;
+}
+#tablaContratos thead tr th.cabMes {
+    min-width: 100px;
+}
+#tablaContratos tbody tr td.colMes {
+    text-align: right;
+}
+tr.rowFooter {
+    background-color: #ccc;
+}
+
+tr.rowFooter td.rowFooterEnc, tr.rowFooterExtra td.rowFooterEnc {
+    text-align: right;
+}
+
+tr.rowFooter td, tr.rowFooterExtra td {
+    vertical-align: middle;
+    text-align: right;
+}
+#lista {
+  margin-top: 22px;
+}
+#lista a {
+  font-weight: bold;
+}
+.chosen-container {
+  width: 100% !important;
+}
+
+@media (max-width:1185px) {
+    body, .contenedorContrato, .contenedorContrato .cabecera, .contenedorContrato .contenido {
+        width: 100%;
+        margin: 0;
+    }
+}
+
+@media only screen 
+and (max-width : 430px) {
+    .col {
+        width: 100%;
+    }
+}

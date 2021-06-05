@@ -1,0 +1,199 @@
+﻿<style>
+.txtSaldo {
+    text-align: right;
+    width: 100px;
+    float: right;
+}
+</style>
+<body role="document">
+    <div id="wrap">
+        <!-- Fixed navbar -->
+        {MAIN_MENU}
+        
+        <div class="row" style="margin: 50px 50px 10px 50px;">
+            <div class="col-md-12">
+                {FILTRO}
+            </div>
+        </div>
+        
+        <script src="assets/chosen/chosen.jquery.min.js"></script>  
+        <script>
+            $('.input-date').datepicker({ clearBtn: true, language: "es", autoclose: true, todayHighlight: true });
+            $('.selectpicker').chosen({ search_contains: true });
+        </script>
+
+        <div class="row" style="margin: 10px 50px 10px 50px;">
+            <div class="col-md-12">                
+                <table id="tablaPrevisionesPago" class="table table-striped table-bordered sticky-header">
+                    <thead style="background-color:#fff;">
+                        <tr style="border:solid 1px silver;">
+                            <th>#</th>
+                            <th style="min-width:200px;">Banco</th>
+                            <th style="min-width:100px;">Tipo Efecto</th>
+                            <th>Cuenta</th>
+                            <th>IBAN</th>  
+                            <th style="text-align:right;">Importes</th>
+                            <th>Saldo Banco</th>
+                            <th>Diferencia</th>                                                 
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {MAIN_CONTENT}
+                    </tbody>
+                    <tfoot>
+                        <tr class="rowTotal" style="border-top: 3px solid black;background-color:#96C7CE">
+                            <td colspan="5">TOTAL GENERAL</td>
+                            <td id="sumTotal" style="text-align:right"></td>
+                            <td id="sumSaldo" style="text-align:right"></td>
+                            <td id="sumDiferencia" style="text-align:right"></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+    <form id="enviarPostExcel" style="display:hidden" action="" method="POST"></form>
+<script type="text/javascript">
+
+    function getParameterByName(name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+
+    var getStart = getParameterByName('start');
+    var getEnd = getParameterByName('end');
+    var getBanco = getParameterByName('banco');
+
+    if (!!getStart) {
+        $("#start").val(getStart);
+    }
+    if (!!getEnd) {
+        $("#end").val(getEnd);
+    }
+    if (!!getBanco) {
+        $("#banco").val(getBanco);
+    }
+
+    $("select").trigger("chosen:updated");
+
+    $(document).ready(function() {
+        $(".txtSaldo").keyup(function() {
+            var saldo = $(this).val();
+            var tr = $(this).parents("tr");
+            var columna3 = tr.find("td").eq(3);
+            var spanDiferencia = columna3.find("span");
+            
+            if (saldo != null){
+                var columna2 = tr.find("td").eq(1);
+                var total = columna2.attr("name");
+                
+                /* si han metido comas en vez de puntos */
+                saldo = saldo.replace(",", ".");
+                total = total.replace(",", ".");
+
+                /* parsear a numero */
+                saldo = parseFloat(saldo);
+                total = parseFloat(total);
+                
+                var diferencia = saldo - total;
+                if (diferencia == 0) { /* no pinta cuando da 0 exacto */
+                    $(spanDiferencia).attr("name", "0");
+                    $(spanDiferencia).text("0");
+                } else{
+                    $(spanDiferencia).attr("name",diferencia); /* guardo el original para hacer cuentas luego */
+                    $(spanDiferencia).text(addPuntoEnMil(formatoMoneda(diferencia)));
+                }
+            } else{
+                $(spanDiferencia).attr("name","0");
+                $(spanDiferencia).text("");
+            }
+            calcularTotales();
+        });
+
+        $('#btnExcel').click(function(e){
+            e.preventDefault();
+            var href = $(this).attr("href");
+            $("#enviarPostExcel").attr("action", href);
+            $("#enviarPostExcel").html(""); /* lo vacio antes por si acaso */
+            /* la posicion aFila0 va a estar vacia para poder recorrerlo luego con php */
+            $("#enviarPostExcel").append('<input type="hidden" id="aFila" name="aFila0[]" value="0"/>');
+
+            var i = 1;
+            $("#tablaPrevisionesPago tr.rowTotal").each(function(){ /* tbody y tfoot */
+                $(this).children("td").each(function(){
+                    var tdText = $(this).text();
+                    if ($(this).find('input').length) { /* si tiene un input hay que coger el saldo */
+                        tdText = $(this).find('input').val();
+                    }
+                    if (tdText != "") {
+                        $("#enviarPostExcel").append('<input type="hidden" id="aFila" name="aFila'+i+'[]" value="'+tdText+'"/>');
+                    }
+                });
+                i++;
+            });
+            $("#enviarPostExcel").submit();
+        });
+        calcularTotales();
+    });
+
+    function calcularTotales(){
+        sumTotal = 0;
+        sumSaldo = 0;
+        sumDiferencia = 0;
+        $("#tablaPrevisionesPago tbody tr.rowTotal").each(function() {
+            $(this).children("td").each(function() {
+                var tdText = $(this);
+                if (tdText.hasClass("tdImporte")) {
+                    var i = tdText.attr("name");
+                    if (i != '') {
+                        sumTotal += parseFloat(i);
+                    }
+                } else if (tdText.hasClass("tdSaldo")){
+                    var s = tdText.find('input').val();
+                    if (s != '') {
+                        s = s.replace(",", "."); /* si han metido comas en vez de puntos */
+                        sumSaldo += parseFloat(s);
+                    }
+                } else if (tdText.hasClass("tdDiferencia")){
+                    var d = tdText.find('span').attr("name");
+                    if (d != '') {
+                        sumDiferencia += parseFloat(d);
+                    }
+                }
+            });
+        });
+        $("#sumTotal").text(addPuntoEnMil(formatoMoneda(sumTotal)));
+        $("#sumSaldo").text(addPuntoEnMil(formatoMoneda(sumSaldo)));
+        $("#sumDiferencia").text(addPuntoEnMil(formatoMoneda(sumDiferencia)));
+    }
+
+    function formatoMoneda(n) {
+        if (n == '') {
+            return '';    
+        }
+    
+        n = n.toFixed(2).replace('.',',');
+        n = n.toString();
+            
+        return n;
+    }
+
+    function addPuntoEnMil(nStr) {
+        nStr += '';
+        var x = nStr.split('.');
+        var x1 = x[0];
+        var x2 = x.length > 1 ? '.' + x[1] : '';
+        var rgx = /(\d+)(\d{3})/;
+        while (rgx.test(x1)) {
+            x1 = x1.replace(rgx, '$1' + '.' + '$2');
+        }
+        return x1 + x2;
+    }
+</script>
+<script src="assets/sticky-header.js"></script>
+</body>

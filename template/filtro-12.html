@@ -1,0 +1,183 @@
+﻿<form action="" method="get">
+    <table style="width: 100%; margin-bottom:20px;">
+        <tr>
+            <td style="padding-left:15px;width: 5%">
+                <label>Ejercicio</label>
+            </td>
+            <td style="padding: 5px;width: 7%">
+                <select class="form-control" data-live-search="true" id="ejercicios" name="ejercicios">      
+                </select>
+            </td>
+            <td style="padding-left:15px;width: 8%">
+                <label>% GG+BI Estimado</label>
+            </td>
+            <td style="padding: 5px;width:3%">
+                <input type="text" class="form-control" id="ggbi" name="ggbi" value="" style="text-align: right;"/>
+            </td>
+            <td style="width: 5%">
+                <input type="button" class="btn btn-primary btn-sm" id="btnCambiarGGBI" value="Cambiar" />
+            </td>
+            <td style="width: 5%">
+                <label>Nivel detalle</label>
+            </td>
+            <td style="padding: 5px;width: 10%">
+                <select class="form-control" data-live-search="true" id="niveles" name="niveles" style="width: 100%">
+                    <option value="proyecto">Proyectos</option>
+                    <option value="contrato">Contratos</option>
+                    <option value="anexo" selected>Anexos</option>
+                    <option value="todos">Todos</option>              
+                </select>
+            </td>
+            <td style="width: 5%">
+                <button style="margin-left: 20px;" type="submit" class="btn btn-primary btn-sm">Filtrar</button>
+            </td>
+            <td style="width: 5%">
+                <a href="informe-12.php" style="margin-left: 20px;" type="submit" class="btn btn-default btn-sm">Borrar</a>
+            </td>
+            <td style="width: 5%">
+                {EXCEL_URL}
+            </td>
+        </tr>
+    </table>
+</form>
+<form id="enviarPostExcel" style="display:hidden" action="" method="POST"></form>
+<script src="assets/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        var anioActual = (new Date).getFullYear();
+        var getEjercicios = getParameterByName('ejercicios');
+        var getGGBI = getParameterByName('ggbi');
+        var getNiveles = getParameterByName('niveles');
+
+        /* llenar select de años */
+        var primero = true;
+        for (var i = anioActual; i >= 2015; i--) {
+            if (primero) {
+                $("#ejercicios").append($("<option>", {
+                    value: i,
+                    text: i,
+                    selected: ""
+                }));
+            } else {
+                $("#ejercicios").append($("<option>", {
+                    value: i,
+                    text: i
+                }));
+            }
+            primero = false;
+        }
+
+        if (!!getEjercicios && getEjercicios !== null) {
+            $("#ejercicios").val(getEjercicios);
+            obtenerGGBI(anioActual);
+        } else {
+            $("#ejercicios").val(anioActual);
+            obtenerGGBI(anioActual);
+        }
+        if (!!getGGBI) {
+            $("#ggbi").val(getGGBI);
+        }
+        if (!!getNiveles) {
+            $("#niveles").val(getNiveles);
+        }
+
+        $('#ejercicios').change(function() {
+            var anio = $(this).val();
+            obtenerGGBI(anio);
+        });
+
+        $('#btnCambiarGGBI').click(function(e) {
+            e.preventDefault();
+            var anio = $('#ejercicios').val();
+            var ggbi = $('#ggbi').val();
+            if(anio != 0) {
+                $.ajax({
+                    url: "functions/render/ajax/informe-12.php",
+                    data: {anio: anio, ggbi: ggbi, accion: 'cambiarGGBI'},
+                    method: "post",
+                    success: function(data) {
+                        if ($.trim(data) == "false") {
+                            alert("Ha ocurrido un error.");
+                        } else {
+                            alert("Porcentaje GG+BI actualizado correctamente.");
+                        }
+                    }
+                }).done(function() {
+                    obtenerPorcentaje();
+                    obtenerPorcentajeA();
+                });
+            }
+        });
+
+        $('#btnExcel').click(function(e) {
+            e.preventDefault();
+            if (imprimirFlag) {
+                var href = $(this).attr("href");
+                $("#enviarPostExcel").attr("action", href);
+                $("#enviarPostExcel").html(""); //lo vacio antes por si acaso
+
+                var i = 0;
+                $("#tablaGastosGenerales tr.rowFooter").each(function() {
+                    var row = Array();
+                    $(this).children("td").each(function() {
+                        var tdText = $(this).text();
+                        if (tdText != "") {
+                            $("#enviarPostExcel").append('<input type="hidden" id="aFila" name="aFila'+i+'[]" value="'+tdText+'"/>');
+                        }
+                    });
+                    i++;
+                });
+
+                $("#enviarPostExcel").submit();
+
+                /*
+                var aTabla = Array();
+                $("#tablaGastosGenerales tr.rowFooter").each(function() {
+                    var row = Array();
+                    $(this).children("td").each(function() {
+                        var tdText = $(this).text();
+                        if (tdText != "") {
+                            row.push(tdText);
+                        }
+                    });
+                    aTabla[i] = row;
+                    i++;
+                });*/
+            } else {
+                alert("Espere un momento para que se carguen las tablas inferiores.");
+            }
+        });
+    });
+
+    function obtenerGGBI(anio) {
+        if(anio != 0) {
+            $.ajax({
+                url: "functions/render/ajax/informe-12.php",
+                data: {anio: anio, accion: 'obtenerGGBI'},
+                method: "post",
+                success: function(data) {
+                    if ($.trim(data) != "false") {
+                        $('#ggbi').val(data);
+                    }
+                },
+                error: function() {
+                    console.log('No se encuentra el archivo');
+                }
+            }).done(function() {
+                /* al hacer este ajax, el % gastos generales estimado no da resultado porque aun no esta escrito el ggbi */
+                obtenerPorcentaje();
+                obtenerPorcentajeA();
+            });
+        }
+    }
+
+    function getParameterByName(name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+</script>

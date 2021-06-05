@@ -1,0 +1,49 @@
+﻿<form action="" method="get">
+    <table style="width: 100%; margin-bottom:20px;">
+        <tr>
+            <td style="padding-left:15px;width: 25%">
+                <div class="form-inline">
+                    <div class="input-group">
+                        <div class="input-group-addon">Desde</div>
+                        <input type="text" class="input-date input-sm form-control" id="start" name="start" value="" autocomplete="off"/>
+                        <div class="input-group-addon">Hasta</div>
+                        <input type="text" class="input-date input-sm form-control" id="end" name="end" value="" autocomplete="off"/>
+                    </div>
+                </div>
+            </td>
+            <td style="padding-left:15px;width: 20%">
+                <select class="form-control selectpicker" data-live-search="true" id="banco" name="banco">
+                    <option value="0">Todos los bancos</option>
+                    {BANCOS} 
+                </select>
+            </td>
+            <td style="width: 5%">
+                <button style="margin-left: 20px;" type="submit" class="btn btn-primary btn-sm">Filtrar</button>
+            </td>
+            <td style="width: 5%">
+                <a href="informe-15.php" style="margin-left: 20px;" type="submit" class="btn btn-default btn-sm">Borrar</a>
+            </td>
+            <td style="width: 5%">
+                {EXCEL_URL}
+            </td>
+        </tr>
+        <tr>
+            <td style="padding-left:15px;padding-top:15px;width: 25%">
+                <select class="form-control selectpicker" data-live-search="true" id="proveedor" name="proveedor">
+                    <option value="0">Todos los proveedores</option>
+                    {PROVEEDORES} 
+                </select>
+            </td>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <td style="padding: 5px; width: 15%">
+                Tipos de efecto
+            </td>
+            <td> 
+                {EFECTOS}
+            </td>
+        </tr>
+    </table>
+</form>

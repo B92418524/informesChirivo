@@ -1,0 +1,118 @@
+﻿<style>
+.txtSaldo {
+    text-align: right;
+    width: 100px;
+    float: right;
+}
+</style>
+<body role="document">
+    <div id="wrap">
+        <!-- Fixed navbar -->
+        {MAIN_MENU}
+        
+        <div class="row" style="margin: 50px 50px 10px 50px;">
+            <div class="col-md-12">
+                {FILTRO}
+            </div>
+        </div>
+        <!-- <script src="assets/datepicker/js/bootstrap-datepicker.min.js"></script> -->
+        <script src="assets/datepicker/locales/bootstrap-datepicker.es.min.js"></script>
+        <script src="assets/chosen/chosen.jquery.min.js"></script>  
+        <script>
+            $('.input-date').datepicker({ clearBtn: true, language: "es", autoclose: true, todayHighlight: true });
+            $('.selectpicker').chosen({ search_contains: true });
+        </script>
+
+        <div class="row" style="margin: 10px 50px 10px 50px;">
+            <div class="col-md-12">                
+                <table id="tablaPrevisionesPago" class="table table-striped table-bordered sticky-header">
+                    <thead style="background-color:#fff;">
+                        <tr style="border:solid 1px silver;">
+                            <th>#</th>  
+                            <th style="width:50px;">C&oacute;digo Proveedor</th>
+                            <th style="min-width:190px;">Raz&oacute;n Social</th>
+                            <th>Ejercicio</th>
+                            <th>Serie</th> 
+                            <th>N&#186;Factura</th>
+                            <th>Su Factura</th>
+                            <th>Fecha emisi&oacute;n</th>
+                            <th>C&oacute;digo Proyecto</th>
+                            <th style="min-width: 400px;">Proyecto</th>
+                            <th style="text-align:right;">Base Imponible</th>
+                            <th style="text-align:right;">Prontopago</th> 
+                            <th style="text-align:right;">Neto</th>
+                            <th style="text-align:right;">Retenci&oacute;n</th>
+                            <th style="text-align:right;">PPRetenci&oacute;n</th>
+                            <th style="text-align:right;">Retenci&oacute;nPP</th>
+                            <th style="text-align:right;">Total cuota iva</th>
+                            <th style="text-align:right;">Importe L&iacute;quido</th>                  
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {MAIN_CONTENT}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <form id="enviarPostExcel" style="display:hidden" action="" method="POST"></form>
+<script type="text/javascript">
+    var getStart = getParameterByName('start');
+    var getEnd = getParameterByName('end');
+    var getBanco = getParameterByName('banco');
+    var getProveedor = getParameterByName('proveedor');
+
+    if (!!getStart) {
+        $("#start").val(getStart);
+    }
+    if (!!getEnd) {
+        $("#end").val(getEnd);
+    }
+    if (!!getBanco) {
+        $("#banco").val(getBanco);
+    }
+    if (!!getProveedor) {
+        $("#proveedor").val(getProveedor);
+    }
+
+    $('select').trigger("chosen:updated"); //actualizar el cambio!
+
+    $(document).ready(function() {
+        $('#btnExcel').click(function(e) {
+            e.preventDefault();
+            var href = $(this).attr("href");
+            $("#enviarPostExcel").attr("action", href);
+            $("#enviarPostExcel").html(""); //lo vacio antes por si acaso
+            //la posicion aFila0 va a estar vacia para poder recorrerlo luego con php
+            $("#enviarPostExcel").append('<input type="hidden" id="aFila" name="aFila0[]" value="0"/>');
+
+            var i = 1;
+            $("#tablaPrevisionesPago tbody tr.rowTotal").each(function() {
+                var row = Array();
+                $(this).children("td").each(function() {
+                    var tdText = $(this).text();
+                    if ($(this).find('input').length) { //si tiene un input hay que coger el saldo
+                        tdText = $(this).find('input').val();
+                    }
+                    if (tdText != "") {
+                        $("#enviarPostExcel").append('<input type="hidden" id="aFila" name="aFila'+i+'[]" value="'+tdText+'"/>');
+                    }
+                });
+                i++;
+            });
+            $("#enviarPostExcel").submit();
+        });
+    });
+
+    function getParameterByName(name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+</script>
+<script src="assets/sticky-header.js"></script>
+</body>

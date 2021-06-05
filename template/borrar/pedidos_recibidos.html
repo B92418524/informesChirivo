@@ -1,0 +1,35 @@
+﻿<div class="portlet light" style="min-height: 600px;">
+
+    <div class="portlet-title">
+        <div class="caption">
+            <i class="icon-basket font-green-sharp"></i>
+            <span class="caption-subject font-green-sharp bold uppercase">Pedidos recibidos</span>
+        </div>
+    </div>
+
+    <div class="portlet-body">
+
+        <div class="table-container">
+
+            <div id="datatable_orders_wrapper" class="dataTables_wrapper dataTables_extended_wrapper no-footer">
+                <div class="table-scrollable">
+                    <table class="table table-striped table-bordered table-hover dataTable no-footer" id="datatable_orders" aria-describedby="datatable_orders_info" role="grid">
+                        <thead>
+                            <tr role="row" class="heading">
+                                <th width="5%">Referencia</th>
+                                <th width="5%">Fecha de envio</th>
+                                <th width="5%">Productos</th>
+                                <th width="5%">Opciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {TABLE_CONTENT}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

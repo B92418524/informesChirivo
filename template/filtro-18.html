@@ -1,0 +1,152 @@
+﻿<form action="" method="get">
+    <div class="row">
+        <div class="col col-lg-4 col-md-4 col-sm-6 col-xs-6">
+            Fecha albar&aacute;n
+            <div class="input-group">
+                <div class="input-group-addon">Desde</div>
+                <input type="text" class="input-date input-sm form-control" name="start" value="{DESDE}" autocomplete="off"/>
+                <div class="input-group-addon">Hasta</div>
+                <input type="text" class="input-date input-sm form-control" name="end" value="{HASTA}" autocomplete="off"/>
+            </div>
+        </div>
+        <div class="col col-lg-4 col-md-5 col-sm-6 col-xs-6">
+            Estado del proyecto
+            {ESTADOS}
+        </div>
+        <div class="col col-lg-4 col-md-5 col-sm-6 col-xs-6" style="padding-top:10px">
+            <div class="col col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                <button style="margin-left: 20px;" type="submit" class="btn btn-primary btn-sm">Filtrar</button>
+            </div>
+            <div class="col col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                <a href="informe-18.php" style="margin-left: 20px;" type="submit" class="btn btn-default btn-sm">Borrar</a>
+            </div>
+            <div class="col col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                {EXCEL_URL}
+            </div>
+            <div class="col col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                {PDF_URL}
+            </div>
+        </div>
+    </div>
+    <div class="row" style="padding-top:20px">
+        <table class="tablaFiltros col-lg-12">
+            <tr>
+                <td>
+                    <div id="divSelProyectos">
+                        Proyectos
+                        <select class="form-control selectpicker" data-live-search="true" name="project[]" multiple >
+                            <option value="0">Todos los proyectos</option>
+                            {PROYECTOS}
+                        </select>
+                    </div>
+                </td>
+                <td>
+                    <div id="divSelContratos">
+                        Contratos
+                        <select class="form-control selectpicker" data-live-search="true" name="contratos[]" multiple >
+                            <option value="0">Todos los contratos</option>
+                            {CONTRATOS}
+                        </select>
+                    </div>
+                </td>
+                <td>
+                    <div id="divSelAnexos">
+                        Anexos
+                        <select class="form-control selectpicker" data-live-search="true" name="anexos[]" multiple >
+                            <option value="0">Todos los anexos</option>
+                            {ANEXOS}
+                        </select>
+                    </div>
+                </td>
+                <td>
+                    <div id="divSelProveedores">
+                        Proveedores
+                        <select class="form-control selectpicker" data-live-search="true" name="pr[]" multiple >
+                            <option value="0">Todos los proveedores</option>
+                            {PROVEEDORES}
+                        </select>
+                    </div>
+                </td>
+                <td>
+                    <div id="divSelArticulos">
+                        Art&iacute;culos
+                        <select class="form-control selectpicker" data-live-search="true" name="articulos[]" multiple >
+                            <option value="0">Todos los art&iacute;culos</option>
+                            {ARTICULOS}
+                        </select>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</form>
+<script type="text/javascript">
+    $(document).ready(function() {
+        var anioActual = (new Date).getFullYear();
+        var getEjercicios = getParameterByName('ejercicios');
+        var getEstados = getParameterByName('estados');
+
+        /* llenar select de años */
+        var primero = true;
+        for (var i = anioActual; i >= 2015; i--) {
+            if (primero) {
+                $("#ejercicios").append($("<option>", {
+                    value: i,
+                    text: i,
+                    selected: ""
+                }));
+            } else {
+                $("#ejercicios").append($("<option>", {
+                    value: i,
+                    text: i
+                }));
+            }
+            primero = false;
+        }
+
+        if (getEjercicios != '' && getEjercicios !== null) {
+            $("#ejercicios").val(getEjercicios);
+        } else {
+            $("#ejercicios").val(anioActual);
+        }
+
+        if (getEstados != '' && getEstados !== null) {
+            $("#estados").val(getEstados);
+        }
+
+        $('#btnExcel').click(function(e) {
+            e.preventDefault();
+            if (imprimirFlag) {
+                var href = $(this).attr("href");
+                $("#enviarPostExcel").attr("action", href);
+                $("#enviarPostExcel").html(""); //lo vacio antes por si acaso
+
+                var i = 0;
+                $("#tablaGastosGenerales tr.rowFooter").each(function() {
+                    var row = Array();
+                    $(this).children("td").each(function() {
+                        var tdText = $(this).text();
+                        if (tdText != "") {
+                            $("#enviarPostExcel").append('<input type="hidden" id="aFila" name="aFila'+i+'[]" value="'+tdText+'"/>');
+                        }
+                    });
+                    i++;
+                });
+
+                $("#enviarPostExcel").submit();
+            } else {
+                alert("Espere un momento para que se carguen las tablas inferiores.");
+            }
+        });
+    });
+
+    function getParameterByName(name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+</script>

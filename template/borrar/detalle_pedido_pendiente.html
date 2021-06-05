@@ -1,0 +1,41 @@
+﻿<div class="portlet light">
+    <div class="portlet-title">
+        <div class="caption">
+            <span class="caption-subject font-green-sharp bold uppercase">{INFO_ORDER}</span>
+        </div>
+    </div>
+    <form action="{POST_URL}" autocomplete="off" method="post">
+        <div class="portlet-body">
+            <div class="table-container">
+
+                <div id="datatable_orders_wrapper" class="dataTables_wrapper dataTables_extended_wrapper no-footer">
+
+                    <div class="table-scrollable">
+                        <table class="table table-striped table-bordered table-hover dataTable no-footer" id="datatable_orders" aria-describedby="datatable_orders_info" role="grid">
+                            <thead>
+                                <tr role="row" class="heading">
+                                    <th width="5%">Referencia</th>
+                                    <th width="50%">Nombre</th>
+                                    <th width="5%">Unidades enviadas</th>
+                                    <th width="5%">Unidades recibidas</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {TABLE_CONTENT}
+                            </tbody>
+                        </table>
+                        <input type="hidden" id="recepcionar_pedido" name="recepcionar_pedido" value="{PID}" />
+                    </div>
+                </div>
+
+            </div>
+            <div style="margin-top: 60px; margin-bottom: 60px; text-align: center;">
+
+                <a style="margin-right: 50px;" href="detalle-pedido-recibido.php?recibido_correcto={PID}" class="btn btn-lg green"><i class="fa fa-check"></i>&nbsp;Pedido recibido correctamente</a>
+
+                <button type="submit" style="margin-left: 50px;" class="btn btn-lg red"><i class="fa fa-times"></i>&nbsp;Pedido recibido con error en las unidades</button>
+
+            </div>
+        </div>
+    </form>
+</div>

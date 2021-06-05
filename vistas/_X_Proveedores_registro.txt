@@ -1,0 +1,18 @@
+﻿USE [ReportingChirivo]
+GO
+
+/****** Object:  View [dbo].[_X_Proveedores_registro]    Script Date: 01/14/2016 12:43:30 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+ALTER VIEW [dbo].[_X_Proveedores_registro]
+AS
+SELECT     CodigoEmpresa, CodigoProveedor, RazonSocial, CifDni
+FROM         SERVIDOR2.logicSQ.dbo.Proveedores AS Proveedores_1
+
+GO
+
+
