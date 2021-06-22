@@ -361,7 +361,7 @@ class contratos extends bd {
 		$doc = str_replace("{NOMBRE}", $nombre, $doc); // NOMBRE DE LA EMPRESA (MERCANTIL)
 		$doc = str_replace("{DOMICILIO}", $domicilio, $doc);
 		$doc = str_replace("{CIF}", $cif, $doc);
-		$doc = str_replace("{CARGO}", $cargo, $doc);
+		$doc = str_replace("{CARGO}", $cargo[0], $doc);
 		$doc = str_replace("{ADMIN}", $admin, $doc); // NOMBRE DEL ADMINISTRADOR
 		$doc = str_replace("{DNI}", $dni, $doc);
 		$doc = str_replace("{OBRA}", $obra, $doc); // NOMBRE LARGO DE LA OBRA

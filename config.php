@@ -1,5 +1,8 @@
 <?php
 
+if(!defined("PATH"))define('PATH', dirname(__DIR__));
+require_once PATH."/informes/vendor/autoload.php";
+
 if (isset($_SESSION['username']))
 {
 	if (strtolower ($_SESSION['username'])=='ticsur')

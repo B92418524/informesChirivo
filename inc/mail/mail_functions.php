@@ -9,7 +9,7 @@ function send_i3_mail()
 	
 	//echo '<pre> Pendientes'."\n".print_r($data,true).'</pre>';
 	
-	$envios='';
+	$envios=[];
 	
 	// Contamos dias y decidimos
 	$envios_a_realizar=0;
@@ -34,7 +34,7 @@ function send_i3_mail()
 			{
 				//agregamos al array de envios
 				//echo '<pre>Diferencia menor de 30 dias -> '.$dif.'</pre>';
-				$envios[]=$d;
+				array_push($envios, $d);
 				$envios_a_realizar++;
 			}		
 		}
@@ -47,7 +47,7 @@ function send_i3_mail()
 	echo '<pre>Numero de registros a enviar: '.print_r($envios_a_realizar,true).'</pre>';
 	
 	// Hacemos los envios
-	if (is_array($envios))
+	if (count($envios) > 0)
 	{		
 		
 		$nm=1;

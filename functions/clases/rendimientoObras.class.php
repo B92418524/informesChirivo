@@ -947,8 +947,8 @@ class rendimientoObras extends bd {
 		$aInfo['PAGO_ANTICIPADO_REALIZADO'] = 0;
 		$contador1 = 1;
 		$contador2 = 1;
-		$sumatorio1 = '';
-		$sumatorio2 = '';
+		$sumatorio1 = array();
+		$sumatorio2 = array();
 
 		foreach ($aInformesObrasDatos as $datos) {
 			$flagContador1 = false;

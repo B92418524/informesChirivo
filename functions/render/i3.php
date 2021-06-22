@@ -537,7 +537,7 @@ function make_i3_array ($id_inf,$regenerar=false) {
 				
 				if (isset($sv['IMPORTE_P_CERTIFICACION'])) {
 					$sa['A'][$ia]['IMPORTE_P_CERTIFICACION_'.$ia.'']   =   $sv['IMPORTE_P_CERTIFICACION'];
-					$val_sum_a[]=$sv['IMPORTE_P_CERTIFICACION'];   
+					$val_sum_a=$sv['IMPORTE_P_CERTIFICACION'];   
 				}
 								
 				$ia++;
@@ -550,7 +550,7 @@ function make_i3_array ($id_inf,$regenerar=false) {
 					
 				if (isset($sv['IMPORTE_ACOPIO_ENTREGA'])) {
 					$sa['B'][$ib]['IMPORTE_ACOPIO_ENTREGA_'.$ib.''] = $sv['IMPORTE_ACOPIO_ENTREGA'];
-					$val_sum_b[]=$sv['IMPORTE_ACOPIO_ENTREGA'];
+					$val_sum_b=$sv['IMPORTE_ACOPIO_ENTREGA'];
 				}								
 				
 				$ib++;

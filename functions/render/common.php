@@ -457,6 +457,7 @@ function render_listar_anexos_i18() {
 	if (isset($_SESSION['anexos'])) {
 		$haySesion = true;
 	}
+	$n=0;
 	$data = get_db_data(array('listar-anexos-i18'));
 	foreach ($data as $d) {
 		$selected = '';

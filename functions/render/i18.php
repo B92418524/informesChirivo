@@ -2,6 +2,7 @@
 // ini_set('error_reporting', E_ALL^E_NOTICE);
 // ini_set('display_errors', 'on');
 header("Content-Type: text/html; charset=ISO-8859-1");
+
 use Mpdf\Mpdf;
 use Mpdf\MpdfException;
 use Mpdf\Output\Destination;
